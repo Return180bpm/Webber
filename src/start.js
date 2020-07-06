@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -18,7 +19,7 @@ const darkTheme = createMuiTheme({
 });
 
 function App() {
-    let elem;
+    let elem = <Welcome />;
     if (location.pathname === "/welcome") {
         // runs if user is NOT logged in
         elem = <Welcome />;

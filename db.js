@@ -33,11 +33,13 @@ exports.getUserById = (userId) => {
     );
 };
 exports.getPwByEmail = (email) => {
-    return db.query(
-        `SELECT first, last, pw, id FROM users
+    return db
+        .query(
+            `SELECT first, last, password, id FROM users
         WHERE email = $1`,
-        [email]
-    );
+            [email]
+        )
+        .then(({ rows }) => rows);
 };
 function updateUser(first, last, email, pw, userId) {
     if (pw) {

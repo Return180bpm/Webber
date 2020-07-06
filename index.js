@@ -31,12 +31,16 @@ app.use(
 //  app.use(csurf());
 app.use(function (req, res, next) {
     res.setHeader("x-frame-options", "deny");
-    // res.locals.csrfToken = req.csrfToken();
     res.locals.user = req.session.user;
     next();
 });
 // app.use(requireLoggedInUser);
 app.use(express.json());
+app.use(csurf());
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 app.use(express.static("./public"));
 
 // app.use(requireLoggedInUser);
@@ -88,6 +92,57 @@ app.post("/register", (req, res) => {
         .catch((err) => {
             console.log("Error in POST /register\n", err);
             res.sendStatus(500);
+        });
+});
+
+app.post("/login", requireLoggedOutUser, (req, res) => {
+    const { email, password } = req.body;
+
+    db.getPwByEmail(email)
+        .then((dbResponseObj) => {
+            console.log("response from SQL db :", dbResponseObj);
+            if (!dbResponseObj[0]) {
+                res.json({ success: false });
+            }
+            const {
+                first,
+                last,
+                password: hashInDB,
+                id: userId,
+            } = dbResponseObj[0];
+
+            bc.compare(password, hashInDB).then((match) => {
+                if (match === true) {
+                    // check if user has signed
+                    // db.getSigId(req.session.userId)
+                    //     .then((dbResponseObjNext) => {
+                    //         if (dbResponseObjNext.rows[0]) {
+                    //             // if the user has already signed
+                    //             const sigId = dbResponseObjNext.rows[0].id;
+                    //             req.session.user.sigId = sigId;
+                    //             res.redirect("/thanks");
+                    //         } else {
+                    //             // the user has not signed yet
+                    //             req.session.user.sigId = null;
+                    //             res.redirect("/petition");
+                    //         }
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log(err);
+                    //     });
+                    req.session.userId = userId;
+                    res.json({ success: true });
+                } else {
+                    // user is in db but has typed wrong password
+
+                    res.json({ success: false });
+                }
+            });
+        })
+        .catch((err) => {
+            console.log("Error in POST /login\n", err);
+            // render login with error
+            res.json({ success: false });
         });
 });
 
