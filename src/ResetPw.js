@@ -7,13 +7,13 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Collapse from "@material-ui/core/Collapse";
+
 import { withStyles } from "@material-ui/core/styles";
 
 import HandleForms from "./HandleForms";
@@ -57,7 +57,7 @@ class ResetPw extends React.Component {
         this.state = {
             /**@description
              * 0 = default. show: email input
-             * 1 = succedd message
+             * 1 = succedd message + verify code form
              */
             currentDisplay: 0,
         };
@@ -68,107 +68,15 @@ class ResetPw extends React.Component {
 
         switch (this.state.currentDisplay) {
             case 0:
-                console.log("jojojo Resetpw", this.state.currentDisplay);
-
                 return (
-                    <Container component="main" maxWidth="xs">
-                        <CssBaseline />
-                        <div className={classes.paper}>
-                            <Avatar className={classes.avatar}>
-                                <LockOutlinedIcon />
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                {this.state.err
-                                    ? "Something went wrong, please try again"
-                                    : "Reset your password"}
-                            </Typography>
-                            <form
-                                className={classes.form}
-                                noValidate
-                                method="POST"
-                                action="/register"
-                                onSubmit={(e) =>
-                                    this.handleSubmit(e, "password/reset/start")
-                                }
-                            >
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            name="email"
-                                            id="email"
-                                            label="Email Address"
-                                            autoComplete="email"
-                                            type="email"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            onChange={(e) =>
-                                                this.handleChange(e)
-                                            }
-                                            onFocus={() => this.resetErr()}
-                                            inputRef={formRef}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.submit}
-                                    onClick={() =>
-                                        formRef.current.reportValidity()
-                                    }
-                                >
-                                    Send Email with Reset Code
-                                </Button>
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Link
-                                            to="/"
-                                            component={RouterLink}
-                                            variant="body2"
-                                            color="textSecondary"
-                                        >
-                                            Don&apos;t have an account? Sign up!
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                            </form>
-                        </div>
-                        <Box mt={5}>
-                            <Copyright />
-                        </Box>
-                    </Container>
-                );
-                break;
-        }
-    }
-
-    render() {
-        const { classes } = this.props;
-        const formRef = {};
-
-        return <>{this.getCurrentDisplay()}</>;
-
-        return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        {this.state.err
-                            ? "Something went wrong, please try again"
-                            : "Reset your password"}
-                    </Typography>
                     <form
                         className={classes.form}
                         noValidate
                         method="POST"
                         action="/register"
-                        onSubmit={(e) => this.handleSubmit(e, "login")}
+                        onSubmit={(e) =>
+                            this.handleSubmit(e, "password/reset/start")
+                        }
                     >
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -179,6 +87,7 @@ class ResetPw extends React.Component {
                                     autoComplete="email"
                                     type="email"
                                     variant="outlined"
+                                    autoFocus
                                     required
                                     fullWidth
                                     onChange={(e) => this.handleChange(e)}
@@ -210,6 +119,147 @@ class ResetPw extends React.Component {
                             </Grid>
                         </Grid>
                     </form>
+                );
+                break;
+            case 1:
+                return (
+                    <Collapse in={this.state.currentDisplay === 1}>
+                        <form
+                            className={classes.form}
+                            noValidate
+                            method="POST"
+                            action="/register"
+                            onSubmit={(e) =>
+                                this.handleSubmit(e, "password/reset/start")
+                            }
+                        >
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                spacing={1}
+                            >
+                                {" "}
+                                <Grid item xs={3}>
+                                    <TextField
+                                        name="email"
+                                        id="email"
+                                        // label="Email Address"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        onChange={(e) => this.handleChange(e)}
+                                        onFocus={() => this.resetErr()}
+                                        inputRef={formRef}
+                                        inputProps={{
+                                            maxLength: 1,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                        name="email"
+                                        id="email"
+                                        // label="Email Address"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        onChange={(e) => this.handleChange(e)}
+                                        onFocus={() => this.resetErr()}
+                                        inputRef={formRef}
+                                        inputProps={{
+                                            maxLength: 1,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                        name="email"
+                                        id="email"
+                                        // label="Email Address"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        onChange={(e) => this.handleChange(e)}
+                                        onFocus={() => this.resetErr()}
+                                        inputRef={formRef}
+                                        inputProps={{
+                                            maxLength: 1,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                        name="email"
+                                        id="email"
+                                        // label="Email Address"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        onChange={(e) => this.handleChange(e)}
+                                        onFocus={() => this.resetErr()}
+                                        inputRef={formRef}
+                                        inputProps={{
+                                            maxLength: 1,
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                className={classes.submit}
+                                onClick={() => formRef.current.reportValidity()}
+                            >
+                                Send Email with Reset Code
+                            </Button>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Link
+                                        to="/"
+                                        component={RouterLink}
+                                        variant="body2"
+                                        color="textSecondary"
+                                    >
+                                        Don&apos;t have an account? Sign up!
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Collapse>
+                );
+                break;
+        }
+    }
+
+    render() {
+        const { classes } = this.props;
+        const formRef = {};
+
+        return (
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+
+                    {this.state.err ? (
+                        <Typography component="h1" variant="h6">
+                            {" "}
+                            Something went wrong, please try again{" "}
+                        </Typography>
+                    ) : (
+                        <Typography component="h4" variant="h5">
+                            {" "}
+                            Reset your password{" "}
+                        </Typography>
+                    )}
+
+                    {this.getCurrentDisplay()}
                 </div>
                 <Box mt={5}>
                     <Copyright />
@@ -219,5 +269,4 @@ class ResetPw extends React.Component {
     }
 }
 
-// export default Login;
 export default withStyles(styles, { withTheme: true })(HandleForms(ResetPw));

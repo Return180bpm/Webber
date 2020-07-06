@@ -3,11 +3,14 @@ const app = express();
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
 
 // Handlers for database stuff
 const db = require("./db.js");
 // Handlers for bcrypt stuff
 const bc = require("./bc.js");
+// email stuff
+const ses = require("./ses");
 
 const {
     requireLoggedInUser,
@@ -141,21 +144,34 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
         });
 });
 app.post("/password/reset/start", (req, res) => {
-    /*
-    1 email exists?
-    */
-    res.json(req.body);
-    db.getPwByEmail(req.body.email)
+    const email = req.body.email;
+    db.getPwByEmail(email)
         .then((rows) => {
+            // console.log("rows from reset/start", rows);
             if (rows.length > 0) {
-                const cryptoRandomString = require("crypto-random-string");
                 const secretCode = cryptoRandomString({
                     length: 6,
                 });
+                db.addCode(email, secretCode)
+                    .then((res) => {
+                        // console.log(
+                        //     "### /POST /reset/start ###\nEmail verified, now sending email"
+                        // );
+                        return ses.sendEmail(
+                            "Th.Szwaja@gmail.com",
+                            "Splainer: Reset your password",
+                            `Your verification code is <bold> ${secretCode} </bold>`
+                        );
+                    })
+                    .then((resAfterEmail) => {
+                        res.json({ success: true });
+                    })
+                    .catch((err) => {
+                        console.error("error in db.addCode\n", err);
+                    });
             } else {
                 res.json({ success: false });
             }
-            console.log("rows from reset/start", rows);
         })
         .catch((err) => {
             console.error("error in /reset/start", err);

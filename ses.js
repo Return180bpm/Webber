@@ -4,7 +4,7 @@ let secrets;
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
 } else {
-    secrets = require("../secrets"); // in dev they are in secrets.json which is listed in .gitignore
+    secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
 }
 
 const ses = new aws.SES({
@@ -19,13 +19,12 @@ const ses = new aws.SES({
  * @param {string} subject - Subject of the message.
  * @param {string} message - Body of the message.
  */
-// exports.sendEmail = function (to, subject, message) {
-export const sendEmail = function (to, subject, message) {
+exports.sendEmail = function (to, subject, message) {
     console.log("From inside sendEmail!", to, subject, message);
 
     return ses
         .sendEmail({
-            Source: "Tom Szwaja <dazzling.walkover@spicedling.email>",
+            Source: "Splainer <dazzling.walkover@spicedling.email>",
             Destination: {
                 ToAddresses: [to],
             },

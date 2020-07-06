@@ -32,7 +32,7 @@ const styles = (theme) => ({
         backgroundColor: "blue",
         color: "red",
         width: "75%",
-        height: 5 * theme.spacing.unit,
+        height: theme.spacing(5),
     },
 });
 
@@ -50,7 +50,7 @@ function Welcome(props) {
         <HashRouter>
             <div>
                 {/* <AppBar> Heyhey</AppBar> */}
-                <Typography variant="title" align="center" gutterBottom>
+                <Typography variant="h1" align="center" gutterBottom>
                     Nightowls
                 </Typography>
 

@@ -1,5 +1,4 @@
 import axios from "./axios";
-import { sendEmail } from "./ses";
 
 function HandleForms(Base) {
     return class WrappedForm extends Base {
@@ -18,8 +17,20 @@ function HandleForms(Base) {
                 .then((res) => {
                     console.log("Res from server", res);
                     if (res.data.success) {
-                        location.replace("/");
+                        if (path === "password/reset/start") {
+                            this.setState({
+                                currentDisplay: this.state.currentDisplay + 1,
+                            });
+                        }
+
+                        if (path === "register" || path === "login") {
+                            location.replace("/");
+                        }
                     } else {
+                        console.log(
+                            "#### in handleSubmit before setstate(err:true)"
+                        );
+
                         this.setState({
                             err: true,
                         });
