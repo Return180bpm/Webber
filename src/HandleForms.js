@@ -13,18 +13,6 @@ function HandleForms(Base) {
             e.preventDefault();
             const self = this;
 
-            sendEmail(
-                "Th.Szwaja@gmail.com",
-                "Heres your password reset code",
-                "918273ysdhbvj"
-            )
-                .then((res) => {
-                    console.log("Email sent", res);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-
             axios
                 .post(`/${path}`, self.state)
                 .then((res) => {

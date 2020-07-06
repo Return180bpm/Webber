@@ -87,7 +87,7 @@ app.post("/register", (req, res) => {
             const { id: userId } = rows[0];
 
             req.session = { userId, firstName, lastName };
-            res.send(rows);
+            res.json({ success: true });
         })
         .catch((err) => {
             console.log("Error in POST /register\n", err);
@@ -99,17 +99,12 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
     const { email, password } = req.body;
 
     db.getPwByEmail(email)
-        .then((dbResponseObj) => {
-            console.log("response from SQL db :", dbResponseObj);
-            if (!dbResponseObj[0]) {
+        .then((rows) => {
+            console.log("response from SQL db :", rows);
+            if (rows.length === 0) {
                 res.json({ success: false });
             }
-            const {
-                first,
-                last,
-                password: hashInDB,
-                id: userId,
-            } = dbResponseObj[0];
+            const { first, last, password: hashInDB, id: userId } = rows[0];
 
             bc.compare(password, hashInDB).then((match) => {
                 if (match === true) {
@@ -145,6 +140,28 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
             res.json({ success: false });
         });
 });
+app.post("/password/reset/start", (req, res) => {
+    /*
+    1 email exists?
+    */
+    res.json(req.body);
+    db.getPwByEmail(req.body.email)
+        .then((rows) => {
+            if (rows.length > 0) {
+                const cryptoRandomString = require("crypto-random-string");
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+            } else {
+                res.json({ success: false });
+            }
+            console.log("rows from reset/start", rows);
+        })
+        .catch((err) => {
+            console.error("error in /reset/start", err);
+        });
+});
+app.post("/reset/verify", (req, res) => {});
 
 app.listen(8080, function () {
     console.log("social network server is listening on 8080.");

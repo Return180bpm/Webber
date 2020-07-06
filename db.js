@@ -41,6 +41,15 @@ exports.getPwByEmail = (email) => {
         )
         .then(({ rows }) => rows);
 };
+exports.emailExists = (email) => {
+    // functions as a check to see if a user has already signed the petition
+    return db
+        .query(`SELECT EXISTS(SELECT email FROM users WHERE email = $1)`, [
+            email,
+        ])
+        .then(({ rows }) => rows);
+};
+
 function updateUser(first, last, email, pw, userId) {
     if (pw) {
         return bc

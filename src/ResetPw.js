@@ -51,14 +51,105 @@ const styles = (theme) => ({
     },
 });
 
-class Login extends React.Component {
+class ResetPw extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            /**@description
+             * 0 = default. show: email input
+             * 1 = succedd message
+             */
+            currentDisplay: 0,
+        };
     }
+    getCurrentDisplay() {
+        const { classes } = this.props;
+        const formRef = {};
+
+        switch (this.state.currentDisplay) {
+            case 0:
+                console.log("jojojo Resetpw", this.state.currentDisplay);
+
+                return (
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <div className={classes.paper}>
+                            <Avatar className={classes.avatar}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                {this.state.err
+                                    ? "Something went wrong, please try again"
+                                    : "Reset your password"}
+                            </Typography>
+                            <form
+                                className={classes.form}
+                                noValidate
+                                method="POST"
+                                action="/register"
+                                onSubmit={(e) =>
+                                    this.handleSubmit(e, "password/reset/start")
+                                }
+                            >
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            name="email"
+                                            id="email"
+                                            label="Email Address"
+                                            autoComplete="email"
+                                            type="email"
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            onChange={(e) =>
+                                                this.handleChange(e)
+                                            }
+                                            onFocus={() => this.resetErr()}
+                                            inputRef={formRef}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.submit}
+                                    onClick={() =>
+                                        formRef.current.reportValidity()
+                                    }
+                                >
+                                    Send Email with Reset Code
+                                </Button>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <Link
+                                            to="/"
+                                            component={RouterLink}
+                                            variant="body2"
+                                            color="textSecondary"
+                                        >
+                                            Don&apos;t have an account? Sign up!
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </div>
+                        <Box mt={5}>
+                            <Copyright />
+                        </Box>
+                    </Container>
+                );
+                break;
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const formRef = {};
+
+        return <>{this.getCurrentDisplay()}</>;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -70,7 +161,7 @@ class Login extends React.Component {
                     <Typography component="h1" variant="h5">
                         {this.state.err
                             ? "Something went wrong, please try again"
-                            : "Log in"}
+                            : "Reset your password"}
                     </Typography>
                     <form
                         className={classes.form}
@@ -95,21 +186,6 @@ class Login extends React.Component {
                                     inputRef={formRef}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    name="password"
-                                    id="password"
-                                    label="Password"
-                                    autoComplete="current-password"
-                                    type="password"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    onChange={(e) => this.handleChange(e)}
-                                    onFocus={() => this.resetErr()}
-                                    inputRef={formRef}
-                                />
-                            </Grid>
                         </Grid>
                         <Button
                             type="submit"
@@ -119,13 +195,9 @@ class Login extends React.Component {
                             className={classes.submit}
                             onClick={() => formRef.current.reportValidity()}
                         >
-                            Sign Up
+                            Send Email with Reset Code
                         </Button>
-                        <Grid
-                            container
-                            direction="column"
-                            alignItems="flex-end"
-                        >
+                        <Grid container justify="flex-end">
                             <Grid item>
                                 <Link
                                     to="/"
@@ -134,16 +206,6 @@ class Login extends React.Component {
                                     color="textSecondary"
                                 >
                                     Don&apos;t have an account? Sign up!
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link
-                                    to="/resetPw"
-                                    component={RouterLink}
-                                    variant="body2"
-                                    color="textSecondary"
-                                >
-                                    Forgot your password?
                                 </Link>
                             </Grid>
                         </Grid>
@@ -158,4 +220,4 @@ class Login extends React.Component {
 }
 
 // export default Login;
-export default withStyles(styles, { withTheme: true })(HandleForms(Login));
+export default withStyles(styles, { withTheme: true })(HandleForms(ResetPw));

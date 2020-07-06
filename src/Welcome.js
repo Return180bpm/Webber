@@ -4,6 +4,7 @@ import { HashRouter, Route } from "react-router-dom";
 import * as MUI from "@material-ui/core/";
 import Registration from "./Registration";
 import Login from "./Login";
+import ResetPw from "./ResetPw";
 
 // import Button from "@material-ui/core/Button";
 // import Box from "@material-ui/core/Box";
@@ -55,6 +56,7 @@ function Welcome(props) {
 
                 <Route exact path="/" component={Registration} />
                 <Route path="/login" component={Login} />
+                <Route path="/resetPw" component={ResetPw} />
             </div>
         </HashRouter>
         // </MuiThemeProvider>
