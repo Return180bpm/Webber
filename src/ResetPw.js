@@ -130,10 +130,35 @@ class ResetPw extends React.Component {
                             method="POST"
                             action="/register"
                             onSubmit={(e) =>
-                                this.handleSubmit(e, "password/reset/start")
+                                this.handleSubmit(e, "password/reset/verify")
                             }
                         >
                             <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                spacing={1}
+                            >
+                                {" "}
+                                <Grid item xs={3}>
+                                    <TextField
+                                        name="email"
+                                        id="email"
+                                        // label="Email Address"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        onChange={(e) => this.handleChange(e)}
+                                        onFocus={() => this.resetErr()}
+                                        inputRef={formRef}
+                                        inputProps={{
+                                            maxLength: 6,
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                            {/* <Grid
                                 container
                                 direction="row"
                                 justify="center"
@@ -205,7 +230,7 @@ class ResetPw extends React.Component {
                                         }}
                                     />
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
                             <Button
                                 type="submit"
                                 fullWidth
@@ -214,7 +239,7 @@ class ResetPw extends React.Component {
                                 className={classes.submit}
                                 onClick={() => formRef.current.reportValidity()}
                             >
-                                Send Email with Reset Code
+                                Submit Reset Code
                             </Button>
                             <Grid container justify="flex-end">
                                 <Grid item>

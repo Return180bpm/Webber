@@ -20,3 +20,7 @@ group chat
 -   slide transition from "Sign up" to "Something went wrong and back"
 -   repeat password
 -   error handling
+
+# login
+
+-   how do you set cookie after logging in?

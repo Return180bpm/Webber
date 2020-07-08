@@ -20,6 +20,7 @@ function HandleForms(Base) {
                         if (path === "password/reset/start") {
                             this.setState({
                                 currentDisplay: this.state.currentDisplay + 1,
+                                // email: res.data.email,
                             });
                         }
 

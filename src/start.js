@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import App from "./App";
 import Welcome from "./Welcome";
 
 const darkTheme = createMuiTheme({
@@ -18,7 +19,7 @@ const darkTheme = createMuiTheme({
     },
 });
 
-function App() {
+function AppWrapper() {
     let elem = <Welcome />;
     if (location.pathname === "/welcome") {
         // runs if user is NOT logged in
@@ -26,12 +27,7 @@ function App() {
     } else {
         // runs if the user IS logged in
         // elem = <img src="/my-logo.jpg" />;
-        elem = (
-            <div>
-                {" "}
-                You are officially logged in! <img src="/main_logo.jpg" />{" "}
-            </div>
-        );
+        elem = <App />;
     }
     return (
         <ThemeProvider theme={darkTheme}>
@@ -41,4 +37,4 @@ function App() {
     );
 }
 
-ReactDOM.render(<App />, document.querySelector("main"));
+ReactDOM.render(<AppWrapper />, document.querySelector("main"));

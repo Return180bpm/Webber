@@ -7,10 +7,39 @@ const cryptoRandomString = require("crypto-random-string");
 
 // Handlers for database stuff
 const db = require("./db.js");
+const { s3Url } = require("./config.json");
+
 // Handlers for bcrypt stuff
 const bc = require("./bc.js");
 // email stuff
 const ses = require("./ses");
+// fileupload stuff
+const aws = require("./aws.js");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24)
+            .then(function (uid) {
+                callback(null, uid + path.extname(file.originalname));
+            })
+            .catch((err) => {
+                console.log("Something went wrong!");
+            });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 const {
     requireLoggedInUser,
@@ -69,13 +98,6 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-app.get("*", function (req, res) {
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
-});
 app.post("/register", (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
@@ -107,7 +129,7 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
             if (rows.length === 0) {
                 res.json({ success: false });
             }
-            const { first, last, password: hashInDB, id: userId } = rows[0];
+            const { password: hashInDB, id: userId } = rows[0];
 
             bc.compare(password, hashInDB).then((match) => {
                 if (match === true) {
@@ -150,7 +172,41 @@ app.post("/password/reset/start", (req, res) => {
             // console.log("rows from reset/start", rows);
             if (rows.length > 0) {
                 const secretCode = cryptoRandomString({
-                    length: 6,
+                    length: 4,
+                });
+                db.addCode(email, secretCode)
+                    .then((res) => {
+                        // console.log(
+                        //     "### /POST /reset/start ###\nEmail verified, now sending email"
+                        // );
+                        return ses.sendEmail(
+                            "Th.Szwaja@gmail.com",
+                            "Splainer: Reset your password",
+                            `Your verification code is <bold> ${secretCode} </bold>`
+                        );
+                    })
+                    .then((resAfterEmail) => {
+                        res.json({ success: true, email: req.body.email });
+                    })
+                    .catch((err) => {
+                        console.error("error in db.addCode\n", err);
+                    });
+            } else {
+                res.json({ success: false });
+            }
+        })
+        .catch((err) => {
+            console.error("error in /reset/start", err);
+        });
+});
+app.post("/password/reset/verify", (req, res) => {
+    const email = req.body.email;
+    db.getPwByEmail(email)
+        .then((rows) => {
+            // console.log("rows from reset/start", rows);
+            if (rows.length > 0) {
+                const secretCode = cryptoRandomString({
+                    length: 4,
                 });
                 db.addCode(email, secretCode)
                     .then((res) => {
@@ -178,6 +234,50 @@ app.post("/password/reset/start", (req, res) => {
         });
 });
 app.post("/reset/verify", (req, res) => {});
+app.get("/user", (req, res) => {
+    if (!req.session.userId) {
+        res.json({ success: false });
+        res.end();
+    }
+
+    db.getUser(req.session.userId)
+        .then((rows) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.post(
+    "/uploadUserImg",
+    uploader.single("file"),
+    aws.uploadMiddleware,
+    (req, res) => {
+        console.log("/uploadUserimg req: ", req.body);
+        const { filename } = req.file;
+        const imageUrl = `${s3Url}${filename}`;
+
+        db.addProfilePic(req.session.userId, imageUrl)
+            .then((rows) => {
+                console.log("###Response from db #rows# ", rows);
+                res.json(rows[0]);
+            })
+            .catch((err) => {
+                res.end(err);
+                console.log(err);
+            });
+    }
+);
+app.get("*", function (req, res) {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
 
 app.listen(8080, function () {
     console.log("social network server is listening on 8080.");
