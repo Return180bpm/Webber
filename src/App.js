@@ -17,6 +17,7 @@ export default class App extends React.Component {
             err: false,
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.setProfilePicUrl = this.setProfilePicUrl.bind(this);
     }
 
     componentDidMount() {

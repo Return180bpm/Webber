@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 
-export default class App extends React.Component {
+export default class Uploader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,6 +36,7 @@ export default class App extends React.Component {
 
     handleUsrImgSubmit(e) {
         var formData = new FormData();
+        var self = this;
 
         e.preventDefault();
         formData.append("file", this.state.userImg);
@@ -43,6 +44,7 @@ export default class App extends React.Component {
         axios
             .post("/uploadUserImg", formData)
             .then(function (response) {
+                self.props.setProfilePicUrl(response.data.profile_pic_url);
                 console.log("response from /uploaduserimg:", response);
             })
             .catch(function (err) {

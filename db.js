@@ -42,6 +42,14 @@ exports.getPwByEmail = (email) => {
         )
         .then(({ rows }) => rows);
 };
+exports.updatePassword = (email, password) => {
+    return db
+        .query(`UPDATE users SET password = $2 WHERE email = $1`, [
+            email,
+            password,
+        ])
+        .then(({ rows }) => rows);
+};
 exports.addProfilePic = (userId, url) => {
     return db
         .query(
@@ -58,6 +66,15 @@ exports.addCode = (email, code) => {
         .query(
             `INSERT INTO reset_codes (email, code) VALUES ($1, $2) RETURNING id`,
             [email, code]
+        )
+        .then(({ rows }) => rows);
+};
+exports.checkCode = (codeUser) => {
+    return db
+        .query(
+            `SELECT code FROM reset_codes
+        WHERE code = $1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';`,
+            [codeUser]
         )
         .then(({ rows }) => rows);
 };

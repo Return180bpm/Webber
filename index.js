@@ -180,7 +180,7 @@ app.post("/password/reset/start", (req, res) => {
                         //     "### /POST /reset/start ###\nEmail verified, now sending email"
                         // );
                         return ses.sendEmail(
-                            "Th.Szwaja@gmail.com",
+                            email,
                             "Splainer: Reset your password",
                             `Your verification code is <bold> ${secretCode} </bold>`
                         );
@@ -200,40 +200,43 @@ app.post("/password/reset/start", (req, res) => {
         });
 });
 app.post("/password/reset/verify", (req, res) => {
-    const email = req.body.email;
-    db.getPwByEmail(email)
+    const codeUser = req.body.code;
+    db.checkCode(codeUser)
         .then((rows) => {
-            // console.log("rows from reset/start", rows);
             if (rows.length > 0) {
-                const secretCode = cryptoRandomString({
-                    length: 4,
-                });
-                db.addCode(email, secretCode)
-                    .then((res) => {
-                        // console.log(
-                        //     "### /POST /reset/start ###\nEmail verified, now sending email"
-                        // );
-                        return ses.sendEmail(
-                            "Th.Szwaja@gmail.com",
-                            "Splainer: Reset your password",
-                            `Your verification code is <bold> ${secretCode} </bold>`
-                        );
-                    })
-                    .then((resAfterEmail) => {
-                        res.json({ success: true });
-                    })
-                    .catch((err) => {
-                        console.error("error in db.addCode\n", err);
-                    });
+                res.json({ success: true });
             } else {
                 res.json({ success: false });
             }
         })
         .catch((err) => {
-            console.error("error in /reset/start", err);
+            console.error("error in /reset/verify", err);
+            res.json({ success: false });
         });
 });
-app.post("/reset/verify", (req, res) => {});
+app.post("/password/reset/update", (req, res) => {
+    console.log("### req.body in /update: ", req.body);
+    // verify?
+    const { email, password } = req.body;
+    bc.makeHash(password)
+        .then((hashedPw) => {
+            return db.updatePassword(email, hashedPw);
+        })
+        .then((rows) => {
+            console.log("###My rows", rows);
+            res.json({ success: true });
+
+            // if (rows.length > 0) {
+            //     res.json({ success: true });
+            // } else {
+            //     res.json({ success: false });
+            // }
+        })
+        .catch((err) => {
+            console.error("error in /reset/update", err);
+            res.json({ success: false });
+        });
+});
 app.get("/user", (req, res) => {
     if (!req.session.userId) {
         res.json({ success: false });

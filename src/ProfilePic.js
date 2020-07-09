@@ -7,6 +7,8 @@ export default function ProfilePic(props) {
 
     return (
         <Avatar
+            width={200}
+            height={200}
             onClick={() => props.toggleModal()}
             alt={props.firstname}
             src={props.profilePicUrl}
