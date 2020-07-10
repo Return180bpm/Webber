@@ -1,23 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import myTheme from "./theme";
 
 import App from "./App";
 import Welcome from "./Welcome";
-
-const darkTheme = createMuiTheme({
-    palette: {
-        type: "dark",
-        primary: {
-            main: "#37474f",
-        },
-        secondary: {
-            main: "#fff9c4",
-        },
-    },
-});
 
 function AppWrapper() {
     let elem = <Welcome />;
@@ -30,7 +19,7 @@ function AppWrapper() {
         elem = <App />;
     }
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={myTheme}>
             <CssBaseline />
             {elem}
         </ThemeProvider>

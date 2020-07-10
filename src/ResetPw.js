@@ -23,8 +23,8 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://nightowls.com/">
-                Nightowls
+            <Link color="inherit" href="https://Codor.com/">
+                Codor
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}

@@ -125,7 +125,7 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
 
     db.getPwByEmail(email)
         .then((rows) => {
-            console.log("response from SQL db :", rows);
+            // console.log("response from SQL db :", rows);
             if (rows.length === 0) {
                 res.json({ success: false });
             }
@@ -215,7 +215,7 @@ app.post("/password/reset/verify", (req, res) => {
         });
 });
 app.post("/password/reset/update", (req, res) => {
-    console.log("### req.body in /update: ", req.body);
+    // console.log("### req.body in /update: ", req.body);
     // verify?
     const { email, password } = req.body;
     bc.makeHash(password)
@@ -223,14 +223,7 @@ app.post("/password/reset/update", (req, res) => {
             return db.updatePassword(email, hashedPw);
         })
         .then((rows) => {
-            console.log("###My rows", rows);
             res.json({ success: true });
-
-            // if (rows.length > 0) {
-            //     res.json({ success: true });
-            // } else {
-            //     res.json({ success: false });
-            // }
         })
         .catch((err) => {
             console.error("error in /reset/update", err);
@@ -254,18 +247,37 @@ app.get("/user", (req, res) => {
             res.end();
         });
 });
+app.get("/api/user/:userId", (req, res) => {
+    console.log("current req.session.userId", req.session.userId);
+
+    if (Number(req.params.userId) === req.session.userId) {
+        return res.json({
+            sameId: true,
+        });
+    }
+    db.getUser(req.params.userId)
+        .then((rows) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
 app.post(
     "/uploadUserImg",
     uploader.single("file"),
     aws.uploadMiddleware,
     (req, res) => {
-        console.log("/uploadUserimg req: ", req.body);
+        // console.log("/uploadUserimg req: ", req.body);
         const { filename } = req.file;
         const imageUrl = `${s3Url}${filename}`;
 
         db.addProfilePic(req.session.userId, imageUrl)
             .then((rows) => {
-                console.log("###Response from db #rows# ", rows);
+                // console.log("###Response from db #rows# ", rows);
                 res.json(rows[0]);
             })
             .catch((err) => {
@@ -274,6 +286,17 @@ app.post(
             });
     }
 );
+app.post("/updateBio", (req, res) => {
+    console.log("body: ", req.body);
+    db.updateBio(req.session.userId, req.body.bio)
+        .then((rows) => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.error("error in /reset/update", err);
+            res.json({ success: false });
+        });
+});
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

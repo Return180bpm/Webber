@@ -83,7 +83,7 @@ export default class Uploader extends React.Component {
 
         return (
             <Fragment>
-                <input
+                {/* <input
                     accept="image/*"
                     //    className={classes.input}
                     id="icon-button-photo"
@@ -101,7 +101,22 @@ export default class Uploader extends React.Component {
                     onClick={(e) => this.handleUsrImgSubmit(e)}
                 >
                     Upload image
-                </Button>
+                </Button> */}
+
+                {/* <Button variant="contained" component="label"> */}
+                {/* Upload Photo */}
+                <input
+                    type="file"
+                    accept="image/*"
+                    id="upload-profile-pic"
+                    style={{ display: "none" }}
+                />
+                <label htmlFor="upload-profile-pic">
+                    <IconButton color="primary" component="span">
+                        <PhotoCamera />
+                    </IconButton>
+                </label>
+                {/* </Button> */}
             </Fragment>
         );
     }

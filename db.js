@@ -50,6 +50,11 @@ exports.updatePassword = (email, password) => {
         ])
         .then(({ rows }) => rows);
 };
+exports.updateBio = (userId, newBio) => {
+    return db
+        .query(`UPDATE users SET bio = $2 WHERE id = $1`, [userId, newBio])
+        .then(({ rows }) => rows);
+};
 exports.addProfilePic = (userId, url) => {
     return db
         .query(

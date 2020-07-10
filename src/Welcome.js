@@ -51,7 +51,7 @@ function Welcome(props) {
             <div>
                 {/* <AppBar> Heyhey</AppBar> */}
                 <Typography variant="h1" align="center" gutterBottom>
-                    Nightowls
+                    Codor
                 </Typography>
 
                 <Route exact path="/" component={Registration} />

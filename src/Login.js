@@ -22,8 +22,8 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://nightowls.com/">
-                Nightowls
+            <Link color="inherit" href="https://Codor.com/">
+                Codor
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}
@@ -33,10 +33,11 @@ function Copyright() {
 
 const styles = (theme) => ({
     paper: {
-        marginTop: theme.spacing(30),
+        // marginTop: theme.spacing(30),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
     },
     avatar: {
         margin: theme.spacing(1),
@@ -76,7 +77,6 @@ class Login extends React.Component {
                         className={classes.form}
                         noValidate
                         method="POST"
-                        action="/register"
                         onSubmit={(e) => this.handleSubmit(e, "login")}
                     >
                         <Grid container spacing={2}>
