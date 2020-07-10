@@ -24,3 +24,13 @@ group chat
 # login
 
 -   how do you set cookie after logging in?
+
+# my_profile
+
+    * profile pic
+        * click to change
+    * firstname, lastname, (username), age, location...
+    * bio
+        * click to edit
+    * tech stack
+    * feed

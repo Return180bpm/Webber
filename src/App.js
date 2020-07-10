@@ -4,6 +4,7 @@ import axios from "./axios";
 import Profile from "./Profile";
 import OtherProfile from "./OtherProfile";
 import Uploader from "./Uploader";
+import FindPeople from "./FindPeople";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -114,6 +115,12 @@ export default class App extends React.Component {
                                     match={props.match}
                                     history={props.history}
                                 />
+                            )}
+                        />
+                        <Route
+                            path="/findPeople"
+                            render={(props) => (
+                                <FindPeople key={props.match.url} />
                             )}
                         />
                     </div>

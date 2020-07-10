@@ -266,6 +266,20 @@ app.get("/api/user/:userId", (req, res) => {
             res.end();
         });
 });
+app.get("/api/findUsers", (req, res) => {
+    console.log("q in findusers", req.query.q);
+
+    db.findUsers(req.query.q)
+        .then((rows) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
 app.post(
     "/uploadUserImg",
     uploader.single("file"),

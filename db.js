@@ -33,6 +33,14 @@ exports.getUser = (userId) => {
         )
         .then(({ rows }) => rows);
 };
+exports.findUsers = (querystring) => {
+    return db
+        .query(
+            `SELECT id,firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1;`,
+            [querystring + "%"]
+        )
+        .then(({ rows }) => rows);
+};
 exports.getPwByEmail = (email) => {
     return db
         .query(
