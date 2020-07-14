@@ -33,11 +33,19 @@ exports.getUser = (userId) => {
         )
         .then(({ rows }) => rows);
 };
+exports.getNewestUsers = (limit) => {
+    return db
+        .query(
+            `SELECT id, firstname, lastname, profile_pic_url FROM users ORDER BY ID DESC LIMIT $1;`,
+            [limit]
+        )
+        .then(({ rows }) => rows);
+};
 exports.findUsers = (querystring) => {
     return db
         .query(
-            `SELECT id,firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1;`,
-            [querystring + "%"]
+            `SELECT id, firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR bio ILIKE $1;`,
+            ["%" + querystring + "%"]
         )
         .then(({ rows }) => rows);
 };
@@ -68,6 +76,48 @@ exports.addProfilePic = (userId, url) => {
         .query(
             `UPDATE users SET profile_pic_url = $2 WHERE id = $1 RETURNING profile_pic_url`,
             [userId, url]
+        )
+        .then(({ rows }) => rows);
+};
+
+//// TABLE = friend_requests
+exports.getFriendshipStatus = (senderId, recipientId) => {
+    return db
+        .query(
+            `SELECT accepted, recipient FROM friend_requests
+        WHERE (sender = $1 
+        AND recipient = $2)
+        OR (sender = $2 
+        AND recipient = $1)
+        `,
+            [senderId, recipientId]
+        )
+        .then(({ rows }) => rows);
+};
+exports.makeFriendshipRequest = (senderId, recipientId) => {
+    return db
+        .query(
+            `INSERT INTO friend_requests (sender, recipient, accepted) VALUES ($1, $2, FALSE)`,
+            [senderId, recipientId]
+        )
+        .then(({ rows }) => rows);
+};
+
+exports.acceptFriendship = (senderId, recipientId) => {
+    return db
+        .query(
+            `UPDATE friend_requests SET accepted = TRUE WHERE sender = $1 
+        AND recipient = $2`,
+            [senderId, recipientId]
+        )
+        .then(({ rows }) => rows);
+};
+exports.rejectFriendship = (senderId, recipientId) => {
+    return db
+        .query(
+            `DELETE FROM friend_requests WHERE sender = $1 
+        AND recipient = $2`,
+            [senderId, recipientId]
         )
         .then(({ rows }) => rows);
 };

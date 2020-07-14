@@ -83,7 +83,18 @@ export default class BioEditor extends React.Component {
                         <Button onClick={() => this.toggleBioEditor()}>
                             Cancel
                         </Button>
-                        {this.state.hasEdited &&
+
+                        <Button
+                            onClick={() => this.handleSubmit()}
+                            {...(this.state.hasEdited &&
+                            this.props.bio !== this.state.bioDraft
+                                ? {}
+                                : { disabled: true })}
+                        >
+                            Save Bio
+                        </Button>
+
+                        {/* {this.state.hasEdited &&
                         this.props.bio !== this.state.bioDraft ? (
                             <Button onClick={() => this.handleSubmit()}>
                                 Save Bio
@@ -95,7 +106,7 @@ export default class BioEditor extends React.Component {
                             >
                                 Save Bio
                             </Button>
-                        )}
+                        )} */}
                     </>
                 ) : (
                     this.getBioView()

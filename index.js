@@ -266,9 +266,81 @@ app.get("/api/user/:userId", (req, res) => {
             res.end();
         });
 });
-app.get("/api/findUsers", (req, res) => {
-    console.log("q in findusers", req.query.q);
+app.get("/friendshipStatus/", (req, res) => {
+    const { senderId, recipientId } = req.query;
 
+    db.getFriendshipStatus(senderId, recipientId)
+        .then((rows) => {
+            console.log("### rows from getFriendshipstatus", rows);
+
+            // rows can be one of three:
+            // 1. []
+            // 2. [{accepted: false}]
+            // 2. [{accepted: true}]
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.post("/makeFriendshipRequest", (req, res) => {
+    const { senderId, recipientId } = req.query;
+
+    db.makeFriendshipRequest(senderId, recipientId)
+        .then((rows) => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.post("/acceptFriendship", (req, res) => {
+    const { senderId, recipientId } = req.query;
+
+    db.acceptFriendship(senderId, recipientId)
+        .then((rows) => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.post("/rejectFriendship", (req, res) => {
+    const { senderId, recipientId } = req.query;
+
+    db.rejectFriendship(senderId, recipientId)
+        .then((rows) => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.get("/api/getNewestUsers", (req, res) => {
+    db.getNewestUsers(req.query.limit)
+        .then((rows) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.get("/api/findUsers", (req, res) => {
     db.findUsers(req.query.q)
         .then((rows) => {
             res.json(rows);

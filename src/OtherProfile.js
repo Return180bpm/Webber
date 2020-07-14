@@ -74,7 +74,7 @@ export default function OtherProfile(props) {
                         toggleModal={props.toggleModal}
                     />
                     <BioEditor bio={props.bio} setBio={props.setBio} /> */}
-                    ... looking for user ...
+                    {!firstname && "... looking for user ..."}
                 </Paper>
             </main>
         </>

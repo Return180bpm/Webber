@@ -17,3 +17,11 @@ CREATE TABLE reset_codes(
   code VARCHAR NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE friend_requests(
+  id SERIAL PRIMARY KEY,
+  sender INT NOT NULL,
+  recipient INT NOT NULL,
+  accepted BOOLEAN NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
