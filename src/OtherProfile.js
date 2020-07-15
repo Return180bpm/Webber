@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "./axios";
 
-import ProfilePic from "./ProfilePic";
-import BioEditor from "./BioEditor";
+import FriendButton from "./FriendButton";
 
 import Paper from "@material-ui/core/Paper";
 
@@ -66,15 +65,9 @@ export default function OtherProfile(props) {
                     </Typography>
                     {bio}
                     <br />
-                    {email}
-                    {/* <ProfilePic
-                        firstname={props.firstname}
-                        lastname={props.lastname}
-                        profilePicUrl={props.profilePicUrl}
-                        toggleModal={props.toggleModal}
-                    />
-                    <BioEditor bio={props.bio} setBio={props.setBio} /> */}
-                    {!firstname && "... looking for user ..."}
+                    <FriendButton otherUserId={userId}></FriendButton>
+
+                    {firstname === "" && "... looking for user ..."}
                 </Paper>
             </main>
         </>

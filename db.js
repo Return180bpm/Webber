@@ -20,23 +20,23 @@ if (process.env.DATABASE_URL) {
 exports.addUser = (first, last, email, password) => {
     return db
         .query(
-            `INSERT INTO users (firstname, lastname, email, password, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING id`,
+            `INSERT INTO users (firstname, lastname, email, password, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING id `,
             [first, last, email, password]
         )
         .then(({ rows }) => rows);
 };
-exports.getUser = (userId) => {
+exports.getUser = (userid) => {
     return db
         .query(
-            `SELECT firstname, lastname, email, bio, profile_pic_url FROM users where id = $1`,
-            [userId]
+            `SELECT id , firstname, lastname, email, bio, profile_pic_url FROM users where id = $1`,
+            [userid]
         )
         .then(({ rows }) => rows);
 };
 exports.getNewestUsers = (limit) => {
     return db
         .query(
-            `SELECT id, firstname, lastname, profile_pic_url FROM users ORDER BY ID DESC LIMIT $1;`,
+            `SELECT id , firstname, lastname, profile_pic_url FROM users ORDER BY ID DESC LIMIT $1;`,
             [limit]
         )
         .then(({ rows }) => rows);
@@ -44,7 +44,7 @@ exports.getNewestUsers = (limit) => {
 exports.findUsers = (querystring) => {
     return db
         .query(
-            `SELECT id, firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR bio ILIKE $1;`,
+            `SELECT id , firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR bio ILIKE $1;`,
             ["%" + querystring + "%"]
         )
         .then(({ rows }) => rows);
@@ -66,58 +66,81 @@ exports.updatePassword = (email, password) => {
         ])
         .then(({ rows }) => rows);
 };
-exports.updateBio = (userId, newBio) => {
+exports.updateBio = (userid, newBio) => {
     return db
-        .query(`UPDATE users SET bio = $2 WHERE id = $1`, [userId, newBio])
+        .query(`UPDATE users SET bio = $2 WHERE id = $1`, [userid, newBio])
         .then(({ rows }) => rows);
 };
-exports.addProfilePic = (userId, url) => {
+exports.addProfilePic = (userid, url) => {
     return db
         .query(
             `UPDATE users SET profile_pic_url = $2 WHERE id = $1 RETURNING profile_pic_url`,
-            [userId, url]
+            [userid, url]
         )
         .then(({ rows }) => rows);
 };
 
 //// TABLE = friend_requests
-exports.getFriendshipStatus = (senderId, recipientId) => {
+exports.getFriends = (userid) => {
+    console.log("#userid:", userid);
+
     return db
         .query(
-            `SELECT accepted, recipient FROM friend_requests
-        WHERE (sender = $1 
-        AND recipient = $2)
-        OR (sender = $2 
-        AND recipient = $1)
-        `,
-            [senderId, recipientId]
+            `SELECT users.id , firstname, lastname, profile_pic_url, accepted
+    FROM friend_requests
+    JOIN users
+    ON (accepted = false AND recipient_id = $1 AND requester_id = users.id )
+    OR (accepted = false AND requester_id = $1 AND recipient_id = users.id )
+    OR (accepted = true AND recipient_id = $1 AND requester_id = users.id )
+    OR (accepted = true AND requester_id = $1 AND recipient_id = users.id )
+`,
+            [userid]
         )
         .then(({ rows }) => rows);
 };
-exports.makeFriendshipRequest = (senderId, recipientId) => {
+exports.getFriendshipStatus = (senderid, recipientid) => {
+    console.log("inside db", senderid, recipientid);
+
     return db
         .query(
-            `INSERT INTO friend_requests (sender, recipient, accepted) VALUES ($1, $2, FALSE)`,
-            [senderId, recipientId]
+            `SELECT accepted, recipient_id FROM friend_requests
+        WHERE (requester_id = $1 
+        AND recipient_id = $2)
+        OR (requester_id = $2 
+        AND recipient_id = $1)
+        `,
+            [senderid, recipientid]
+        )
+        .then(({ rows }) => rows);
+};
+exports.makeFriendshipRequest = (senderid, recipientid) => {
+    return db
+        .query(
+            `INSERT INTO friend_requests (requester_id, recipient_id, accepted) VALUES ($1, $2, FALSE)`,
+            [senderid, recipientid]
         )
         .then(({ rows }) => rows);
 };
 
-exports.acceptFriendship = (senderId, recipientId) => {
+exports.acceptFriendship = (senderid, recipientid) => {
     return db
         .query(
-            `UPDATE friend_requests SET accepted = TRUE WHERE sender = $1 
-        AND recipient = $2`,
-            [senderId, recipientId]
+            `UPDATE friend_requests SET accepted = TRUE WHERE (requester_id = $1 
+        AND recipient_id = $2)
+        OR (requester_id = $2 
+        AND recipient_id = $1)`,
+            [senderid, recipientid]
         )
         .then(({ rows }) => rows);
 };
-exports.rejectFriendship = (senderId, recipientId) => {
+exports.rejectFriendship = (senderid, recipientid) => {
     return db
         .query(
-            `DELETE FROM friend_requests WHERE sender = $1 
-        AND recipient = $2`,
-            [senderId, recipientId]
+            `DELETE FROM friend_requests WHERE (requester_id = $1 
+        AND recipient_id = $2)
+        OR (requester_id = $2 
+        AND recipient_id = $1)`,
+            [senderid, recipientid]
         )
         .then(({ rows }) => rows);
 };
@@ -127,7 +150,7 @@ exports.rejectFriendship = (senderId, recipientId) => {
 exports.addCode = (email, code) => {
     return db
         .query(
-            `INSERT INTO reset_codes (email, code) VALUES ($1, $2) RETURNING id`,
+            `INSERT INTO reset_codes (email, code) VALUES ($1, $2) RETURNING id `,
             [email, code]
         )
         .then(({ rows }) => rows);

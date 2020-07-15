@@ -20,8 +20,8 @@ CREATE TABLE reset_codes(
 
 CREATE TABLE friend_requests(
   id SERIAL PRIMARY KEY,
-  sender INT NOT NULL,
-  recipient INT NOT NULL,
+  requester_id INT NOT NULL,
+  recipient_id INT NOT NULL,
   accepted BOOLEAN NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

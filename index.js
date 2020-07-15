@@ -266,10 +266,26 @@ app.get("/api/user/:userId", (req, res) => {
             res.end();
         });
 });
-app.get("/friendshipStatus/", (req, res) => {
-    const { senderId, recipientId } = req.query;
+app.get("/getFriends", (req, res) => {
+    console.log("/getfriends");
 
-    db.getFriendshipStatus(senderId, recipientId)
+    db.getFriends(req.session.userId)
+        .then((rows) => {
+            console.log("### rows from getFriends", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.error("Error in /user, in db.getUser:\n", err);
+
+            res.json({ success: false });
+            res.end();
+        });
+});
+app.get("/friendshipStatus", (req, res) => {
+    const { otherUserId } = req.query;
+    console.log("other", otherUserId);
+
+    db.getFriendshipStatus(req.session.userId, otherUserId)
         .then((rows) => {
             console.log("### rows from getFriendshipstatus", rows);
 
@@ -286,10 +302,8 @@ app.get("/friendshipStatus/", (req, res) => {
             res.end();
         });
 });
-app.post("/makeFriendshipRequest", (req, res) => {
-    const { senderId, recipientId } = req.query;
-
-    db.makeFriendshipRequest(senderId, recipientId)
+app.post("/makeFriendshipRequest/:recipientId", (req, res) => {
+    db.makeFriendshipRequest(req.session.userId, req.params.recipientId)
         .then((rows) => {
             res.json({ success: true });
         })
@@ -300,10 +314,8 @@ app.post("/makeFriendshipRequest", (req, res) => {
             res.end();
         });
 });
-app.post("/acceptFriendship", (req, res) => {
-    const { senderId, recipientId } = req.query;
-
-    db.acceptFriendship(senderId, recipientId)
+app.post("/acceptFriendship/:recipientId", (req, res) => {
+    db.acceptFriendship(req.session.userId, req.params.recipientId)
         .then((rows) => {
             res.json({ success: true });
         })
@@ -314,10 +326,8 @@ app.post("/acceptFriendship", (req, res) => {
             res.end();
         });
 });
-app.post("/rejectFriendship", (req, res) => {
-    const { senderId, recipientId } = req.query;
-
-    db.rejectFriendship(senderId, recipientId)
+app.post("/rejectFriendship/:recipientId", (req, res) => {
+    db.rejectFriendship(req.session.userId, req.params.recipientId)
         .then((rows) => {
             res.json({ success: true });
         })
