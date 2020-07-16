@@ -9,7 +9,9 @@ export const profileStyles = (theme) => ({
             marginRight: "auto",
         },
     },
+
     paper: {
+        height: 500,
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
@@ -19,6 +21,16 @@ export const profileStyles = (theme) => ({
             padding: theme.spacing(3),
         },
     },
+
+    avatarLarge: {
+        width: theme.spacing(25),
+        height: theme.spacing(25),
+        border: `10px solid ${theme.palette.primary.main}`,
+
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
+
     //   paper: {
     //       // marginTop: theme.spacing(50),
     //       display: "flex",
@@ -37,4 +49,13 @@ export const profileStyles = (theme) => ({
     //   submit: {
     //       margin: theme.spacing(3, 0, 2),
     //   },
+});
+
+export const appBarStyles = (theme) => ({
+    toolbarTitle: {
+        flexGrow: 1,
+    },
+    link: {
+        margin: theme.spacing(1, 1.5),
+    },
 });

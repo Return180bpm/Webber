@@ -45,7 +45,6 @@ export default class Uploader extends React.Component {
             .post("/uploadUserImg", formData)
             .then(function (response) {
                 self.props.setProfilePicUrl(response.data.profile_pic_url);
-                console.log("response from /uploaduserimg:", response);
             })
             .catch(function (err) {
                 console.log(err);

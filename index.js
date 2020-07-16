@@ -248,8 +248,6 @@ app.get("/user", (req, res) => {
         });
 });
 app.get("/api/user/:userId", (req, res) => {
-    console.log("current req.session.userId", req.session.userId);
-
     if (Number(req.params.userId) === req.session.userId) {
         return res.json({
             sameId: true,
@@ -267,11 +265,8 @@ app.get("/api/user/:userId", (req, res) => {
         });
 });
 app.get("/getFriends", (req, res) => {
-    console.log("/getfriends");
-
     db.getFriends(req.session.userId)
         .then((rows) => {
-            console.log("### rows from getFriends", rows);
             res.json(rows);
         })
         .catch((err) => {
@@ -283,12 +278,9 @@ app.get("/getFriends", (req, res) => {
 });
 app.get("/friendshipStatus", (req, res) => {
     const { otherUserId } = req.query;
-    console.log("other", otherUserId);
 
     db.getFriendshipStatus(req.session.userId, otherUserId)
         .then((rows) => {
-            console.log("### rows from getFriendshipstatus", rows);
-
             // rows can be one of three:
             // 1. []
             // 2. [{accepted: false}]
@@ -383,7 +375,6 @@ app.post(
     }
 );
 app.post("/updateBio", (req, res) => {
-    console.log("body: ", req.body);
     db.updateBio(req.session.userId, req.body.bio)
         .then((rows) => {
             res.json({ success: true });

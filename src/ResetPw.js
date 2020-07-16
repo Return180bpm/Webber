@@ -79,7 +79,6 @@ class ResetPw extends React.Component {
         axios
             .post(`/${path}`, self.state)
             .then((res) => {
-                console.log("Res from server", res);
                 if (res.data.success) {
                     // if (path === "password/reset/start") {
                     this.setState({

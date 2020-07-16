@@ -1,17 +1,20 @@
 import React from "react";
 
 import Avatar from "@material-ui/core/Avatar";
+import { profileStyles } from "./styles";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(profileStyles);
 
 export default function ProfilePic(props) {
-    // console.log(("### Props of ProfilePic:", props));
-
+    const classes = useStyles();
     return (
         <Avatar
-            width="100"
-            height={100}
+            variant="square"
             onClick={() => props.toggleModal()}
             alt={props.firstname}
             src={props.profilePicUrl}
+            className={classes.avatarLarge}
         />
     );
 }

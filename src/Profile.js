@@ -13,7 +13,6 @@ const useStyles = makeStyles(profileStyles);
 
 export default function Profile(props) {
     const classes = useStyles();
-    console.log("#Props in profie", props);
 
     return (
         <>
@@ -24,6 +23,7 @@ export default function Profile(props) {
                         lastname={props.lastname}
                         profilePicUrl={props.profilePicUrl}
                         toggleModal={props.toggleModal}
+                        myClass={classes.avatar}
                     />
                     <BioEditor bio={props.bio} setBio={props.setBio} />
                 </Paper>

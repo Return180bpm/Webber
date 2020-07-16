@@ -26,7 +26,6 @@ export default function OtherProfile(props) {
         (async () => {
             try {
                 const { data } = await axios.get(`/api/user/${userId}`);
-                console.log("data after axios request", data);
                 if (data.sameId) {
                     return props.history.push("/");
                 }

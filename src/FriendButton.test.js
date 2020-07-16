@@ -22,7 +22,7 @@ test("No request, no friendship renders 'Send friend request", async () => {
     expect(button.innerHTML).toContain("Send Friend Request");
 
     fireEvent.click(button);
-    expect(button.innerHTML).toContain("Send Friend Request");
+    expect(button.innerHTML).toContain("Cancel Friend Request");
 });
 
 // * if (rows.length === 0) {

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
 
+import MyAppBar from "./MyAppBar";
 import Profile from "./Profile";
 import OtherProfile from "./OtherProfile";
 import Uploader from "./Uploader";
@@ -92,6 +93,8 @@ export default class App extends React.Component {
 
         return (
             <>
+                <MyAppBar isLoggedIn={true} />
+
                 <BrowserRouter>
                     <div>
                         <Route

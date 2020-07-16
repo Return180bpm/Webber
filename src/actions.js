@@ -2,24 +2,22 @@ import axios from "./axios";
 
 export async function getFriends() {
     const { data: friendships } = await axios.get("/getFriends");
-    console.log("from inside actions/getFriends. Friendships:", friendships);
-
     return {
         type: "GET_FRIENDS",
         friendships,
     };
 }
-export async function acceptFriend() {
-    const friendships = await axios.get("/friends");
+export async function acceptFriend(friendId) {
+    await axios.post(`/acceptFriendship/${friendId}`);
     return {
-        type: "ACCEPT",
-        userId,
+        type: "ACCEPT_FRIEND",
+        friendId,
     };
 }
-export async function rejectFriends() {
-    const friendships = await axios.get("/friends");
+export async function rejectFriend(friendId) {
+    await axios.post(`/rejectFriendship/${friendId}`);
     return {
-        type: "REJECT_FRIENDS",
-        userId,
+        type: "REJECT_FRIEND",
+        friendId,
     };
 }

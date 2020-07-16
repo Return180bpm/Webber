@@ -1,20 +1,34 @@
 export default function reducer(state = {}, action) {
     if (action.type == "GET_FRIENDS") {
-        console.log("in GET_FRIENDS");
-
         return { ...state, friendships: action.friendships };
-
-        // Object.assign({}, ...state, {
-        //     friendships: action.friendships,
-        // });
     }
     if (action.type == "ACCEPT_FRIEND") {
-        const user = { ...state.user, bio: action.bio };
-        return { ...state, user };
+        let ind;
+        let newFriendsArray =
+            state.friendships &&
+            state.friendships.map((friend, changedInd) => {
+                if (friend.id === action.friendId) {
+                    friend.accepted = true;
+                    ind = changedInd;
+                }
+                return friend;
+            });
+
+        newFriendsArray.splice(0, 0, newFriendsArray.splice(ind, 1)[0]);
+
+        return { ...state, friendships: newFriendsArray };
     }
     if (action.type == "REJECT_FRIEND") {
-        const user = { ...state.user, bio: action.bio };
-        return { ...state, user };
+        let newFriendsArray =
+            state.friendships &&
+            state.friendships.filter((friend) => {
+                if (friend.id === action.friendId) {
+                    return;
+                }
+                return friend;
+            });
+
+        return { ...state, friendships: newFriendsArray };
     }
     return state;
 }

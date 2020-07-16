@@ -86,13 +86,13 @@ exports.getFriends = (userid) => {
 
     return db
         .query(
-            `SELECT users.id , firstname, lastname, profile_pic_url, accepted
+            `SELECT users.id , firstname, lastname, profile_pic_url, accepted, updated_at
     FROM friend_requests
     JOIN users
     ON (accepted = false AND recipient_id = $1 AND requester_id = users.id )
-    OR (accepted = false AND requester_id = $1 AND recipient_id = users.id )
     OR (accepted = true AND recipient_id = $1 AND requester_id = users.id )
     OR (accepted = true AND requester_id = $1 AND recipient_id = users.id )
+    ORDER BY updated_at DESC
 `,
             [userid]
         )
@@ -125,7 +125,7 @@ exports.makeFriendshipRequest = (senderid, recipientid) => {
 exports.acceptFriendship = (senderid, recipientid) => {
     return db
         .query(
-            `UPDATE friend_requests SET accepted = TRUE WHERE (requester_id = $1 
+            `UPDATE friend_requests SET accepted = TRUE, updated_at = CURRENT_TIMESTAMP WHERE (requester_id = $1 
         AND recipient_id = $2)
         OR (requester_id = $2 
         AND recipient_id = $1)`,

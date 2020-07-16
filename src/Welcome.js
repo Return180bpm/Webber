@@ -5,6 +5,7 @@ import * as MUI from "@material-ui/core/";
 import Registration from "./Registration";
 import Login from "./Login";
 import ResetPw from "./ResetPw";
+import MyAppBar from "./MyAppBar";
 
 // import Button from "@material-ui/core/Button";
 // import Box from "@material-ui/core/Box";
@@ -27,20 +28,20 @@ const {
     MuiThemeProvider,
 } = MUI;
 
-const styles = (theme) => ({
-    container: {
-        backgroundColor: "blue",
-        color: "red",
-        width: "75%",
-        height: theme.spacing(5),
-    },
-});
+// const styles = (theme) => ({
+//     container: {
+//         backgroundColor: "blue",
+//         color: "red",
+//         width: "75%",
+//         height: theme.spacing(5),
+//     },
+// });
 
-const theme = createMuiTheme({
-    palette: {
-        primary1Color: "#455a64",
-    },
-});
+// const theme = createMuiTheme({
+//     palette: {
+//         primary1Color: "#455a64",
+//     },
+// });
 
 function Welcome(props) {
     const classes = props.classes;
@@ -49,10 +50,7 @@ function Welcome(props) {
         // <MuiThemeProvider theme={theme}>
         <HashRouter>
             <div>
-                {/* <AppBar> Heyhey</AppBar> */}
-                <Typography variant="h1" align="center" gutterBottom>
-                    Codor
-                </Typography>
+                <MyAppBar isLoggedIn={false} />
 
                 <Route exact path="/" component={Registration} />
                 <Route path="/login" component={Login} />
@@ -63,4 +61,5 @@ function Welcome(props) {
     );
 }
 
-export default withStyles(styles)(Welcome);
+// export default withStyles(styles)(Welcome);
+export default Welcome;
