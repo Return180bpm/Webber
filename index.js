@@ -4,6 +4,8 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 // Handlers for database stuff
 const db = require("./db.js");
@@ -48,13 +50,16 @@ const {
     requireSignature,
 } = require("./routeMiddleware.js");
 
+const cookieSessionMiddleware = cookieSession({
+    secret: `Let's be backrooms shining dollardollarbillyo.`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
 app.use(compression());
-app.use(
-    cookieSession({
-        secret: `Let's be backrooms shining dollardollarbillyo.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 app.use(
     express.urlencoded({
         extended: false,
@@ -87,7 +92,35 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+io.on("connection", async function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
 
+    const userId = socket.request.session.userId;
+
+    //get 10 last messages
+    // try {
+    // const lastTenMessages = await db.getNewestMessages(10);
+    //     // io.sockets.emit("chatMessages", lastTenMessages.data);
+    // } catch (error) {
+    //     console.error("Something went wrong with the chat!", err);
+    // }
+    socket.on("chatMessage", async (chatMessage) => {
+        // 1. db => insert chatMessage
+        try {
+            await db.addMessage(userId, chatMessage);
+            const user = await db.getUser(userId);
+            console.log("### user: ", user);
+            io.sockets.emit("chatMessage", chatMessage);
+        } catch (error) {
+            console.error("Something went wrong with the chat!", error);
+        }
+        // 2. get info about user
+        // 3. Emit our message object to everyone => should look like the chatMessage object in getNewest
+        console.log("Incoming chat message!\n### ", chatMessage);
+    });
+});
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         // if the user is logged in...
@@ -392,6 +425,6 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("social network server is listening on 8080.");
 });

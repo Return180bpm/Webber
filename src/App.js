@@ -7,6 +7,7 @@ import OtherProfile from "./OtherProfile";
 import Uploader from "./Uploader";
 import FindPeople from "./FindPeople";
 import Friends from "./Friends";
+import Chat from "./Chat";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -132,6 +133,10 @@ export default class App extends React.Component {
                             render={(props) => (
                                 <Friends key={props.match.url} />
                             )}
+                        />
+                        <Route
+                            path="/chat"
+                            render={(props) => <Chat key={props.match.url} />}
                         />
                     </div>
                 </BrowserRouter>

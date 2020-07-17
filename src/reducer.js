@@ -30,5 +30,10 @@ export default function reducer(state = {}, action) {
 
         return { ...state, friendships: newFriendsArray };
     }
+    if (action.type == "ADD_CHAT_MESSAGE") {
+        let newChatMessagesArray = action.message;
+
+        return { ...state, chatMessages: newChatMessagesArray };
+    }
     return state;
 }

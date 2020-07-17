@@ -59,3 +59,29 @@ export const appBarStyles = (theme) => ({
         margin: theme.spacing(1, 1.5),
     },
 });
+
+export const chatStyles = (theme) => ({
+    container: {
+        padding: "2em 2em",
+    },
+    paper: {
+        // marginTop: theme.spacing(50),
+        height: 150,
+        overflowY: "scroll",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: "100%", // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+});

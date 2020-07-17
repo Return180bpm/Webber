@@ -5,6 +5,8 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import myTheme from "./theme";
 
+import { init } from "./socket";
+
 import App from "./App";
 import Welcome from "./Welcome";
 
@@ -26,12 +28,7 @@ function AppWrapper() {
         elem = <Welcome />;
     } else {
         // runs if the user IS logged in
-        // elem = <img src="/my-logo.jpg" />;
-        // <Provider store={store}>
-        //     elem = (
-        //     <App />
-        //     );
-        // </Provider>;
+        init(store);
         elem = (
             <Provider store={store}>
                 <App />

@@ -21,3 +21,9 @@ export async function rejectFriend(friendId) {
         friendId,
     };
 }
+export function addChatMessage(message) {
+    return {
+        type: "ADD_CHAT_MESSAGE",
+        message,
+    };
+}

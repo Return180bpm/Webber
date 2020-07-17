@@ -164,3 +164,24 @@ exports.checkCode = (codeUser) => {
         )
         .then(({ rows }) => rows);
 };
+
+/// TABLE = chat_messages
+
+exports.addMessage = (userId, messageText) => {
+    return db
+        .query(
+            `INSERT INTO chat_messages (user_id, message_text) VALUES ($1, $2)`,
+            [userId, messageText]
+        )
+        .then(({ rows }) => rows);
+};
+exports.getNewestMessages = (limit) => {
+    return db
+        .query(
+            `SELECT chat_messages.id, chat_messages.created_at, message_text, firstname, lastname, profile_pic_url FROM chat_messages JOIN users ON 
+            chat_messages.user_id = users.id
+            ORDER BY chat_messages.id DESC LIMIT $1;`,
+            [limit]
+        )
+        .then(({ rows }) => rows);
+};
