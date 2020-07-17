@@ -170,15 +170,16 @@ exports.checkCode = (codeUser) => {
 exports.addMessage = (userId, messageText) => {
     return db
         .query(
-            `INSERT INTO chat_messages (user_id, message_text) VALUES ($1, $2)`,
+            `INSERT INTO chat_messages (user_id, message_text) VALUES ($1, $2) RETURNING id, to_char(created_at::timestamp, 'HH:MI:SS') AS created_at, message_text`,
             [userId, messageText]
         )
-        .then(({ rows }) => rows);
+        .then(({ rows }) => rows[0]);
 };
 exports.getNewestMessages = (limit) => {
+    // DD Mon YYYY HH:MI:SSPM
     return db
         .query(
-            `SELECT chat_messages.id, chat_messages.created_at, message_text, firstname, lastname, profile_pic_url FROM chat_messages JOIN users ON 
+            `SELECT chat_messages.id, to_char(chat_messages.created_at::timestamp, 'HH:MI:SS') AS created_at, message_text, firstname, lastname, profile_pic_url FROM chat_messages JOIN users ON 
             chat_messages.user_id = users.id
             ORDER BY chat_messages.id DESC LIMIT $1;`,
             [limit]

@@ -31,9 +31,15 @@ export default function reducer(state = {}, action) {
         return { ...state, friendships: newFriendsArray };
     }
     if (action.type == "ADD_CHAT_MESSAGE") {
-        let newChatMessagesArray = action.message;
+        let newChatMessagesArray =
+            state.chatMessages && state.chatMessages.concat(action.message);
 
         return { ...state, chatMessages: newChatMessagesArray };
+    }
+    if (action.type == "GET_ALL_CHAT_MESSAGES") {
+        // let newChatMessagesArray = action.messages;
+
+        return { ...state, chatMessages: action.messages };
     }
     return state;
 }

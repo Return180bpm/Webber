@@ -61,12 +61,16 @@ export const appBarStyles = (theme) => ({
 });
 
 export const chatStyles = (theme) => ({
-    container: {
+    chatContainer: {
         padding: "2em 2em",
+    },
+    singleMsgContainer: {},
+    singleMsgInnerContainer: {
+        flexDirection: "column",
     },
     paper: {
         // marginTop: theme.spacing(50),
-        height: 150,
+        height: 300,
         overflowY: "scroll",
         display: "flex",
         flexDirection: "column",

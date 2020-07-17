@@ -56,9 +56,19 @@ group chat
         render cancelFriendship
     }
     * if (rows.accepted === false) {
-
-        if(rows.sender === userId) {
-            render cancelFriendship
-        }
+        if(rows.recipient === this.state.userId) {
         render acceptFriendship + cancelFriendship;
+        }
+        render cancelFriendship
     }
+
+##### TODO
+
+# Chat
+
+    * clear chatbox upon success (callback from socket? / emit "success", true back to client?)
+
+# Friend Button
+
+    * Error handling in UI
+    * testing ??!??

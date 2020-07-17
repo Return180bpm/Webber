@@ -100,25 +100,33 @@ io.on("connection", async function (socket) {
     const userId = socket.request.session.userId;
 
     //get 10 last messages
-    // try {
-    // const lastTenMessages = await db.getNewestMessages(10);
-    //     // io.sockets.emit("chatMessages", lastTenMessages.data);
-    // } catch (error) {
-    //     console.error("Something went wrong with the chat!", err);
-    // }
+    try {
+        const newestMessages = await db.getNewestMessages(10);
+        io.sockets.emit("chatMessages", newestMessages.reverse());
+    } catch (error) {
+        console.error("Something went wrong with the chat!", err);
+    }
     socket.on("chatMessage", async (chatMessage) => {
-        // 1. db => insert chatMessage
         try {
-            await db.addMessage(userId, chatMessage);
+            const { id, created_at, message_text } = await db.addMessage(
+                userId,
+                chatMessage
+            );
+
             const user = await db.getUser(userId);
-            console.log("### user: ", user);
-            io.sockets.emit("chatMessage", chatMessage);
+            // console.log("### user: ", user);
+            // 3. Emit our message object to everyone => should look like the chatMessage object in getNewest
+            io.sockets.emit("chatMessage", {
+                firstname: user[0].firstname,
+                lastname: user[0].lastname,
+                profile_pic_url: user[0].profile_pic_url,
+                id,
+                created_at,
+                message_text,
+            });
         } catch (error) {
             console.error("Something went wrong with the chat!", error);
         }
-        // 2. get info about user
-        // 3. Emit our message object to everyone => should look like the chatMessage object in getNewest
-        console.log("Incoming chat message!\n### ", chatMessage);
     });
 });
 app.get("/welcome", (req, res) => {

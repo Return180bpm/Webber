@@ -25,8 +25,8 @@ function HandleForms(Base) {
                         }
 
                         if (path === "register" || path === "login") {
-                            location.replace("/user/3");
-                            // location.replace("/");
+                            // location.replace("/user/3");
+                            location.replace("/");
                         }
                     } else {
                         console.log(
