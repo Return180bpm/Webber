@@ -21,6 +21,12 @@ export const profileStyles = (theme) => ({
             padding: theme.spacing(3),
         },
     },
+    upperProfile: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "spaceBetween",
+    },
 
     avatarLarge: {
         width: theme.spacing(25),
@@ -33,10 +39,10 @@ export const profileStyles = (theme) => ({
 
     //   paper: {
     //       // marginTop: theme.spacing(50),
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       alignItems: "center",
-    //       justifyContent: "center",
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   alignItems: "center",
+    //   justifyContent: "center",
     //   },
     //   avatar: {
     //       margin: theme.spacing(1),

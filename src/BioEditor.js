@@ -2,13 +2,17 @@ import React from "react";
 import axios from "./axios";
 
 import Button from "@material-ui/core/Button";
-import { Typography, Container } from "@material-ui/core";
+import { Typography, Container, Grid } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+import { bioEditor } from "./styles";
+const useStyles = makeStyles(bioEditor);
 
 import Profile from "./Profile";
 import Uploader from "./Uploader";
 
 export default class BioEditor extends React.Component {
+    const classes = useStyles();
     constructor(props) {
         super(props);
         this.state = {
@@ -52,16 +56,23 @@ export default class BioEditor extends React.Component {
             );
         } else {
             return (
-                <>
-                    <Typography>{this.props.bio}</Typography>
-                    <Button
-                        onClick={() => {
-                            this.toggleBioEditor();
-                        }}
-                    >
-                        Edit Bio
-                    </Button>
-                </>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Typography variant="body1">
+                            {this.props.bio}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => {
+                                this.toggleBioEditor();
+                            }}
+                        >
+                            Edit Bio
+                        </Button>
+                    </Grid>
+                </Grid>
             );
         }
     }
