@@ -49,6 +49,23 @@ export const profileStyles = (theme) => ({
         // marginTop: theme.spacing(2),
         // marginBottom: theme.spacing(2),
     },
+    friendsBtnAccept: {
+        color: theme.palette.primary.light,
+    },
+    friendsBtnSend: {
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.primary.light,
+    },
+    bioTextBox: {
+        height: "100%",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+    },
+    bioText: {
+        marginTop: "20px",
+        // textAlign: "center",
+    },
     //   paper: {
     //       // marginTop: theme.spacing(50),
     //   display: "flex",

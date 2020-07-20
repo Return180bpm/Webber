@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "./axios";
 import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { profileStyles } from "./styles";
+const useStyles = makeStyles(profileStyles);
 
 const FriendButton = (props) => {
+    const classes = useStyles();
     const [buttonText, setButtonText] = useState("");
     const buttonTextList = [
         "Send Friend Request",
@@ -18,7 +22,7 @@ const FriendButton = (props) => {
                 axios
                     .post(`/makeFriendshipRequest/${props.otherUserId}`)
                     .then(({ data }) => {
-                        console.log("###data after send friend request", data);
+                        // console.log("###data after send friend request", data);
                         setButtonText(buttonTextList[2]);
                     })
                     .catch((err) => {
@@ -34,7 +38,7 @@ const FriendButton = (props) => {
                 axios
                     .post(`/rejectFriendship/${props.otherUserId}`) // change this to rejectFriendship
                     .then(({ data }) => {
-                        console.log("###data after send friend request", data);
+                        // console.log("###data after send friend request", data);
                         setButtonText(buttonTextList[0]);
                     })
                     .catch((err) => {
@@ -73,9 +77,6 @@ const FriendButton = (props) => {
                     if (data[0].accepted) {
                         setButtonText(buttonTextList[1]);
                     } else {
-                        console.log("props.otheruserid", props.otherUserId);
-                        console.log("props.otheruserid", data[0].recipient_id);
-
                         if (
                             parseInt(props.otherUserId, 10) ===
                             data[0].recipient_id
@@ -99,9 +100,24 @@ const FriendButton = (props) => {
     return (
         <>
             {buttonText === buttonTextList[3] && (
-                <Button onClick={handleAccept}> {buttonTextList[4]}</Button>
+                <Button
+                    className={classes.friendsBtnAccept}
+                    variant="contained"
+                    onClick={handleAccept}
+                >
+                    {" "}
+                    {buttonTextList[4]}
+                </Button>
             )}
-            <Button onClick={handleClick}>
+            <Button
+                className={
+                    buttonText === buttonTextList[0]
+                        ? classes.friendsBtnSend
+                        : ""
+                }
+                variant="contained"
+                onClick={handleClick}
+            >
                 {buttonText ? buttonText : "Loading..."}
             </Button>
         </>
