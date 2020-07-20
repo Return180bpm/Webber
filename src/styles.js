@@ -24,19 +24,31 @@ export const profileStyles = (theme) => ({
     upperProfile: {
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "spaceBetween",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+    },
+    personName: {
+        backgroundColor: theme.palette.primary.dark,
+        textAlign: "center",
+        padding: "5px 5px",
+        color: "#fff",
+        width: "100%",
+    },
+    profileInfo: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
     },
 
     avatarLarge: {
-        width: theme.spacing(25),
-        height: theme.spacing(25),
-        border: `10px solid ${theme.palette.primary.main}`,
+        width: theme.spacing(30),
+        height: theme.spacing(40),
+        border: `1px solid ${theme.palette.primary.dark}`,
 
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
+        // marginTop: theme.spacing(2),
+        // marginBottom: theme.spacing(2),
     },
-
     //   paper: {
     //       // marginTop: theme.spacing(50),
     //   display: "flex",
@@ -55,6 +67,23 @@ export const profileStyles = (theme) => ({
     //   submit: {
     //       margin: theme.spacing(3, 0, 2),
     //   },
+});
+
+export const bioEditor = (theme) => ({
+    bioEditorContainer: {
+        // width: 100,
+        // border: "1px solid black",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        width: "100%",
+        height: "100%",
+    },
+    textField: {
+        border: {},
+        width: "100%",
+    },
 });
 
 export const appBarStyles = (theme) => ({

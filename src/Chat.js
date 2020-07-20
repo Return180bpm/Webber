@@ -40,6 +40,7 @@ const Message = (props) => {
                 <Grid container className={classes.singleMsgInnerContainer}>
                     <Grid item>
                         <Typography
+                            margin="10px 10px"
                             component="span"
                             variant="h6"
                             display="inline"
@@ -64,6 +65,7 @@ const Chat = () => {
     const classes = useStyles();
     const elemRef = useRef();
     const chatMessages = useSelector((state) => {
+        console.log("my messages", state.chatMessages);
         return state && state.chatMessages;
     });
 

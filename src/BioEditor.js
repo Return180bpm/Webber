@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "./axios";
 
 import Button from "@material-ui/core/Button";
-import { Typography, Container, Grid } from "@material-ui/core";
+import { Typography, Container, Grid, Box } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { bioEditor } from "./styles";
@@ -11,44 +11,36 @@ const useStyles = makeStyles(bioEditor);
 import Profile from "./Profile";
 import Uploader from "./Uploader";
 
-export default class BioEditor extends React.Component {
+export default function BioEditor(props) {
     const classes = useStyles();
-    constructor(props) {
-        super(props);
-        this.state = {
-            bioDraft: "",
-            hasEdited: false,
-            bioEditorIsVisible: false,
-            err: false,
-        };
-    }
 
-    handleChange(e) {
-        this.setState({
-            hasEdited: true,
-            [e.target.name]: e.target.value,
-        });
-    }
+    const [bioDraft, setBioDraft] = useState("");
+    const [hasEdited, setHasEdited] = useState(false);
+    const [bioEditorIsVisible, setBioEditorIsVisible] = useState(false);
+    const [err, setErr] = useState(false);
 
-    handleSubmit() {
+    const handleChange = (e) => {
+        setHasEdited(true);
+        setBioDraft(e.target.value);
+    };
+
+    const handleSubmit = () => {
         // if (this.state.hasEdited && this.props.bio !== this.state.bioDraft) {
-        this.props.setBio(this.state.bioDraft);
-        this.toggleBioEditor();
+        props.setBio(bioDraft);
+        toggleBioEditor();
         // }
-    }
+    };
 
-    toggleBioEditor() {
-        this.setState({
-            bioEditorIsVisible: !this.state.bioEditorIsVisible,
-        });
-    }
+    const toggleBioEditor = () => {
+        setBioEditorIsVisible(!bioEditorIsVisible);
+    };
 
-    getBioView() {
-        if (!this.props.bio) {
+    const getBioView = () => {
+        if (!props.bio) {
             return (
                 <Button
                     onClick={() => {
-                        this.toggleBioEditor();
+                        toggleBioEditor();
                     }}
                 >
                     Add Bio
@@ -56,73 +48,76 @@ export default class BioEditor extends React.Component {
             );
         } else {
             return (
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Typography variant="body1">
-                            {this.props.bio}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => {
-                                this.toggleBioEditor();
-                            }}
-                        >
-                            Edit Bio
-                        </Button>
-                    </Grid>
-                </Grid>
+                <Box display="flex" className={classes.bioEditorContainer}>
+                    <Typography variant="h6">{props.bio}</Typography>
+
+                    <Button
+                        variant="outlined"
+                        style={{ alignSelf: "flex-end" }}
+                        onClick={() => {
+                            toggleBioEditor();
+                        }}
+                    >
+                        Edit Bio
+                    </Button>
+                </Box>
+
+                // <Grid container>
+                //     <Grid item xs={12}>
+                //         <Typography variant="body1">{props.bio}</Typography>
+                //     </Grid>
+                //     <Grid item xs={12}>
+                //         <Button
+                //             variant="outlined"
+                //             onClick={() => {
+                //                 toggleBioEditor();
+                //             }}
+                //         >
+                //             Edit Bio
+                //         </Button>
+                //     </Grid>
+                // </Grid>
             );
         }
-    }
+    };
 
-    render() {
-        return (
-            <>
-                {this.state.bioEditorIsVisible ? (
-                    <>
-                        <TextField
-                            placeholder="I'm a great person"
-                            value={this.state.bioDraft || this.props.bio}
-                            name="bioDraft"
-                            multiline
-                            rows={2}
-                            rowsMax={4}
-                            onChange={(e) => this.handleChange(e)}
-                        />
-                        <Button onClick={() => this.toggleBioEditor()}>
+    return (
+        <>
+            {bioEditorIsVisible ? (
+                <Box display="flex" className={classes.bioEditorContainer}>
+                    <TextField
+                        variant="filled"
+                        placeholder="I'm a great person"
+                        value={bioDraft || props.bio}
+                        name="bioDraft"
+                        multiline
+                        rows={4}
+                        rowsMax={4}
+                        className={classes.textField}
+                        onChange={(e) => handleChange(e)}
+                    />
+                    <Box
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <Button onClick={() => toggleBioEditor()}>
                             Cancel
                         </Button>
 
                         <Button
-                            onClick={() => this.handleSubmit()}
-                            {...(this.state.hasEdited &&
-                            this.props.bio !== this.state.bioDraft
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleSubmit()}
+                            {...(hasEdited && props.bio !== bioDraft
                                 ? {}
                                 : { disabled: true })}
                         >
                             Save Bio
                         </Button>
-
-                        {/* {this.state.hasEdited &&
-                        this.props.bio !== this.state.bioDraft ? (
-                            <Button onClick={() => this.handleSubmit()}>
-                                Save Bio
-                            </Button>
-                        ) : (
-                            <Button
-                                onClick={() => this.handleSubmit()}
-                                disabled
-                            >
-                                Save Bio
-                            </Button>
-                        )} */}
-                    </>
-                ) : (
-                    this.getBioView()
-                )}
-            </>
-        );
-    }
+                    </Box>
+                </Box>
+            ) : (
+                getBioView()
+            )}
+        </>
+    );
 }
