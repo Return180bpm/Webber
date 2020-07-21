@@ -48,8 +48,8 @@ export default function BioEditor(props) {
             );
         } else {
             return (
-                <Box display="flex" className={classes.bioEditorContainer}>
-                    <Typography variant="h6">{props.bio}</Typography>
+                <>
+                    <Typography variant="h4">{props.bio}</Typography>
 
                     <Button
                         variant="outlined"
@@ -60,7 +60,7 @@ export default function BioEditor(props) {
                     >
                         Edit Bio
                     </Button>
-                </Box>
+                </>
 
                 // <Grid container>
                 //     <Grid item xs={12}>
@@ -82,16 +82,18 @@ export default function BioEditor(props) {
     };
 
     return (
-        <>
+        <Box display="flex" className={classes.bioEditorContainer}>
             {bioEditorIsVisible ? (
-                <Box display="flex" className={classes.bioEditorContainer}>
+                <>
                     <TextField
-                        variant="filled"
+                        variant="outlined"
                         placeholder="I'm a great person"
                         value={bioDraft || props.bio}
                         name="bioDraft"
+                        fullWidth
                         multiline
-                        rows={4}
+                        margin="normal"
+                        rows={3}
                         rowsMax={4}
                         className={classes.textField}
                         onChange={(e) => handleChange(e)}
@@ -114,10 +116,10 @@ export default function BioEditor(props) {
                             Save Bio
                         </Button>
                     </Box>
-                </Box>
+                </>
             ) : (
                 getBioView()
             )}
-        </>
+        </Box>
     );
 }

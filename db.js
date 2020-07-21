@@ -36,7 +36,7 @@ exports.getUser = (userid) => {
 exports.getNewestUsers = (limit) => {
     return db
         .query(
-            `SELECT id , firstname, lastname, profile_pic_url FROM users ORDER BY ID DESC LIMIT $1;`,
+            `SELECT id , firstname, lastname, bio, profile_pic_url FROM users ORDER BY ID DESC LIMIT $1;`,
             [limit]
         )
         .then(({ rows }) => rows);
@@ -44,7 +44,7 @@ exports.getNewestUsers = (limit) => {
 exports.findUsers = (querystring) => {
     return db
         .query(
-            `SELECT id , firstname, lastname, profile_pic_url FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR bio ILIKE $1;`,
+            `SELECT id , firstname, lastname, bio, profile_pic_url FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR bio ILIKE $1 LIMIT 10;`,
             ["%" + querystring + "%"]
         )
         .then(({ rows }) => rows);

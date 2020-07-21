@@ -1,6 +1,7 @@
 import React from "react";
 
 import ProfilePic from "./ProfilePic";
+import Uploader from "./Uploader";
 import BioEditor from "./BioEditor";
 
 import Paper from "@material-ui/core/Paper";
@@ -18,27 +19,35 @@ export default function Profile(props) {
     return (
         <main className={classes.layout}>
             <Paper className={classes.paper}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} style={{ height: "300px" }}>
                     <Grid item xs={12} className={classes.upperProfile}>
-                        <ProfilePic
-                            firstname={props.firstname}
-                            lastname={props.lastname}
-                            profilePicUrl={props.profilePicUrl}
-                            toggleModal={props.toggleModal}
-                            myClass={classes.avatar}
-                        />
                         <Box
-                            style={{ marginLeft: 12, height: 100 }}
-                            flexGrow={1}
-                            className={classes.profileInfo}
+                        // style={{
+                        //     display: "flex",
+                        //     justifyContent: "flex-end",
+                        // }}
                         >
+                            <ProfilePic
+                                firstname={props.firstname}
+                                lastname={props.lastname}
+                                profilePicUrl={props.profilePicUrl}
+                                toggleModal={props.toggleModal}
+                                myClass={classes.avatar}
+                            />
+                            <Uploader
+                                // toggle={this.state.uploaderIsVisible}
+                                setProfilePicUrl={props.setProfilePicUrl}
+                            />
+                        </Box>
+
+                        <Box className={classes.profileInfo}>
                             <Typography
                                 variant="h4"
                                 className={classes.personName}
                             >
                                 {props.firstname}  {props.lastname}
                             </Typography>
-                            <Typography variant="h5">Bio:</Typography>
+
                             <BioEditor bio={props.bio} setBio={props.setBio} />
                         </Box>
                     </Grid>

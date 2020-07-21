@@ -3,9 +3,12 @@ import { green, yellow } from "@material-ui/core/colors";
 
 const myTheme = createMuiTheme({
     palette: {
-        primary: green,
-
-        secondary: yellow,
+        primary: {
+            main: "#29b6f6",
+        },
+        secondary: {
+            main: "#fff59d",
+        },
     },
 });
 

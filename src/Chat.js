@@ -16,10 +16,9 @@ import { chatStyles } from "./styles";
 const useStyles = makeStyles(chatStyles);
 
 const keyCheck = (e) => {
-    // document.getElementById("chatBox").value = "";
-
     if (e.key === "Enter") {
         socket.emit("chatMessage", e.target.value);
+        document.getElementById("chatBox").value = "";
     }
 };
 

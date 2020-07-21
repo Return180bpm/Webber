@@ -69,6 +69,7 @@ export default class App extends React.Component {
     }
 
     setProfilePicUrl(newProfilePicUrl) {
+        console.log("###setpro", this.setProfilePicUrl);
         this.setState({
             profilePicUrl: newProfilePicUrl,
         });
@@ -94,9 +95,8 @@ export default class App extends React.Component {
 
         return (
             <>
-                <MyAppBar isLoggedIn={true} />
-
                 <BrowserRouter>
+                    <MyAppBar profilePicUrl={profilePicUrl} isLoggedIn={true} />
                     <div>
                         <Route
                             exact
@@ -108,7 +108,8 @@ export default class App extends React.Component {
                                     profilePicUrl={profilePicUrl}
                                     bio={bio}
                                     setBio={this.setBio}
-                                    toggleModal={this.toggleModal}
+                                    // toggleModal={this.toggleModal}
+                                    setProfilePicUrl={this.setProfilePicUrl}
                                 />
                             )}
                         />
@@ -141,12 +142,12 @@ export default class App extends React.Component {
                     </div>
                 </BrowserRouter>
 
-                {this.state.uploaderIsVisible && (
+                {/* {this.state.uploaderIsVisible && (
                     <Uploader
                         toggle={this.state.uploaderIsVisible}
                         setProfilePicUrl={this.setProfilePicUrl}
                     />
-                )}
+                )} */}
             </>
         );
     }

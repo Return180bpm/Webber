@@ -39,6 +39,9 @@ export const profileStyles = (theme) => ({
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "flex-start",
+        height: "350px",
+
+        marginLeft: "8px",
     },
 
     avatarLarge: {
@@ -95,11 +98,13 @@ export const bioEditor = (theme) => ({
         alignItems: "flex-start",
         justifyContent: "flex-start",
         width: "100%",
-        height: "100%",
+
+        marginTop: 16,
     },
     textField: {
-        border: {},
+        minWidth: "100%",
         width: "100%",
+        // minHeight: "100%",
     },
 });
 
@@ -108,6 +113,7 @@ export const appBarStyles = (theme) => ({
         flexGrow: 1,
     },
     link: {
+        height: "50%",
         margin: theme.spacing(1, 1.5),
     },
 });
@@ -139,5 +145,29 @@ export const chatStyles = (theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+    },
+});
+
+export const findPeopleStyles = (theme) => ({
+    layout: {
+        width: "auto",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+            width: 600,
+            marginLeft: "auto",
+            marginRight: "auto",
+        },
+    },
+
+    paper: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+        padding: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+            marginTop: theme.spacing(6),
+            marginBottom: theme.spacing(6),
+            padding: theme.spacing(3),
+        },
     },
 });

@@ -44,10 +44,11 @@ export default class Uploader extends React.Component {
         axios
             .post("/uploadUserImg", formData)
             .then(function (response) {
+                console.log("im getting  a new url", response);
                 self.props.setProfilePicUrl(response.data.profile_pic_url);
             })
             .catch(function (err) {
-                console.log(err);
+                console.log("something went wrong", err);
             });
     }
 
@@ -105,17 +106,24 @@ export default class Uploader extends React.Component {
                 {/* <Button variant="contained" component="label"> */}
                 {/* Upload Photo */}
                 <input
+                    onChange={(e) => this.handleFileChange(e)}
                     type="file"
                     accept="image/*"
                     id="upload-profile-pic"
                     style={{ display: "none" }}
                 />
+                <Button
+                    variant="outlined"
+                    component="span"
+                    onClick={(e) => this.handleUsrImgSubmit(e)}
+                >
+                    Upload image
+                </Button>
                 <label htmlFor="upload-profile-pic">
                     <IconButton color="primary" component="span">
                         <PhotoCamera />
                     </IconButton>
                 </label>
-                {/* </Button> */}
             </Fragment>
         );
     }

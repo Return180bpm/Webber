@@ -33,6 +33,10 @@ const useStyles = makeStyles({
     Paper: {
         padding: "1em 1em",
         textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
     },
     PaperGrid: {
         spacing: 0,
@@ -54,8 +58,8 @@ const PeopleList = (props) => {
             {props.peopleArr &&
                 props.peopleArr.map((friend) => {
                     return (
-                        <Paper className={classes.Paper} key={friend.id}>
-                            <Grid item>
+                        <Grid item>
+                            <Paper className={classes.Paper} key={friend.id}>
                                 <Link
                                     to={"/user/" + friend.id}
                                     component={RouterLink}
@@ -106,8 +110,8 @@ const PeopleList = (props) => {
                                 )}
                                 {/* </Grid>
                                     </Grid> */}
-                            </Grid>
-                        </Paper>
+                            </Paper>
+                        </Grid>
                     );
                 })}
         </Grid>
@@ -140,7 +144,11 @@ const Friends = () => {
                 Your Friends
             </Typography>
             <PeopleList peopleArr={friendshipsAccepted} />
-            <Typography variant="h4" className={classes.Typo}>
+            <Typography
+                variant="h4"
+                className={classes.Typo}
+                style={{ marginTop: 16 }}
+            >
                 Your Friend Requests
             </Typography>
             <PeopleList peopleArr={friendshipsPending} />
