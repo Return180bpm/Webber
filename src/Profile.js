@@ -42,7 +42,7 @@ export default function Profile(props) {
 
                         <Box className={classes.profileInfo}>
                             <Typography
-                                variant="h4"
+                                variant="h5"
                                 className={classes.personName}
                             >
                                 {props.firstname}  {props.lastname}

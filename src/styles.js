@@ -28,10 +28,11 @@ export const profileStyles = (theme) => ({
         justifyContent: "flex-start",
     },
     personName: {
-        backgroundColor: theme.palette.primary.dark,
+        // backgroundColor: theme.palette.primary.dark,
         textAlign: "center",
         padding: "5px 5px",
-        color: "#fff",
+        // color: "#fff",
+        borderBottom: `1px solid ${theme.palette.primary.light}`,
         width: "100%",
     },
     profileInfo: {
@@ -40,14 +41,13 @@ export const profileStyles = (theme) => ({
         alignItems: "flex-start",
         justifyContent: "flex-start",
         height: "350px",
-
         marginLeft: "8px",
     },
 
     avatarLarge: {
         width: theme.spacing(30),
         height: theme.spacing(40),
-        border: `1px solid ${theme.palette.primary.dark}`,
+        // border: `1px solid ${theme.palette.primary.dark}`,
 
         // marginTop: theme.spacing(2),
         // marginBottom: theme.spacing(2),
@@ -98,6 +98,7 @@ export const bioEditor = (theme) => ({
         alignItems: "flex-start",
         justifyContent: "flex-start",
         width: "100%",
+        padding: "8px 18px",
 
         marginTop: 16,
     },

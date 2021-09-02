@@ -53,7 +53,7 @@ export default function BioEditor(props) {
 
                     <Button
                         variant="outlined"
-                        style={{ alignSelf: "flex-end" }}
+                        style={{ alignSelf: "flex-end", marginTop: 8 }}
                         onClick={() => {
                             toggleBioEditor();
                         }}

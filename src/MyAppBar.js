@@ -61,7 +61,7 @@ const generateNav = (isLoggedIn, profilePicUrl) => {
                 <Link to="/" component={RouterLink}>
                     <Avatar
                         src={profilePicUrl}
-                        style={{ width: 100, height: 100 }}
+                        style={{ width: 60, height: 60 }}
                     />
                 </Link>
             </>
@@ -75,7 +75,7 @@ const MyAppBar = (props) => {
 
     useEffect(() => {});
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{ padding: "8px 8px" }}>
             <Toolbar>
                 <Typography
                     variant="h3"
@@ -87,7 +87,7 @@ const MyAppBar = (props) => {
                 </Typography>
                 <nav
                     style={{
-                        width: 500,
+                        // width: 500,
                         display: "flex",
                         justifyContent: "flex-end",
                         alignItems: "center",
