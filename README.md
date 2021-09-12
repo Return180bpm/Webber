@@ -2,13 +2,15 @@
 
 **A social network app using Material Design**
 
-
+---
 
 ### General Idea
 
-I made this when I was attending the full stack web development bootcamp at [SPICED Academy](https://www.spiced-academy.com/en). As part of the lesson plan, the app introduced us to React, Redux, sockets, and front end routing. I also used it to learn Material-UI, for fun.
+I made this when I was attending the full stack web development bootcamp at [SPICED Academy](https://www.spiced-academy.com/en). As part of the lesson plan, this project introduced us to React, Redux, sockets, and front end routing. I also used it to learn Material-UI, for fun.
 
-Read about all that fun in my [Development Story](#development-story) section, below!
+Read about all that fun in the [Development Story](#development-story) section, below!
+
+---
 
 ### Features
 
@@ -17,8 +19,10 @@ Read about all that fun in my [Development Story](#development-story) section, b
 *   Reset your password via email
 *   Upload a profile picture 
 *   Find other users
-*   Friend and unfriend
-*   Message other users
+*   Friend and unfriend them
+*   Chat with them
+
+---
 
 ### Stack
 
@@ -28,6 +32,8 @@ Read about all that fun in my [Development Story](#development-story) section, b
 
 *   [Node](https://nodejs.org/en/about/)
 *   [PostgreSQL](https://www.postgresql.org/about/)
+
+---
 
 <a id="development-story"> </a>
 
@@ -57,28 +63,30 @@ The Material UI part was frustrating - I was used to writing CSS in .css files. 
 
 After a bit of this set up and research I realized that what really could use some work were my expectations. I wasn't going to send seismic waves through the UX community with this project. I wasn't even sure what I could hope for at that point, since I was still figuring out the workflow. Meanwhile, on the coding side, things were getting more complex with Redux and sockets, and I wanted to keep up with that first and foremost. 
 
-So, I decided that this was to be a learning experience. I would do what I can when there was time for it. Now my grand vision went something like this: "it would be cool to integrate Material UI, get some elements on the screen and see if I can modify the default theme." On the Figma side, I would be satisfied with understanding the basic workflow of a design kit.
+So, I decided that this was to be a learning experience. I would do what I can with the limited time I had. Now, my grand vision went something like this: it would be cool to integrate Material UI, get some elements on the screen and see if I can modify the default theme. On the Figma side, I'd like to understand the basic workflow of a design kit.
 
 #### Review
 
-In the end, I achieved all of this. Even though the result was far from my initial vision, the thing was functioning and stable and made of Material Components. This was a learning experience in more ways than one. Let's examine. 
+In the end, I achieved all of this. Even though the result was far off from my initial vision, the app was functioning, stable and made of Material Components. This was a learning experience in more ways than one. Let's examine. 
 
-*What went well?*
+##### *What went well?*
 
-Well, I learned how to do some technical things - using the Material-UI library involved a lot of steps, from setting up a <Theme provider> to learning about the API of the <Form> component. I'm grateful that their documentation is as clear as it is. 
+Well, I learned how to do some technical things - using the Material-UI library involved a lot of steps, from setting up a <ThemeProvider> to learning about the API of the <form> component. I'm grateful that their documentation is as rich as it is. 
 
-It was quite satisfying to get a pre-styled Material-looking button on the screen; to import one of the form templates and make it work for me felt great; and to get a grasp on how to work with classes and theming and organize it all inside my code - that felt like I just conquered a small nation. Kind of like regular CSS. This whole undertaking really was a dive into unknown waters - everything was new and in the end I have a much better sense of the scale and effort involved in a project like this. 
+It was quite satisfying to get a pre-styled Material-looking button on the screen; it felt great to import one of the form templates and make it work for me; and to get a grasp on CSS-in-JS and organize it efficiently - I'm still waiting for my medal.
 
-Lastly, I am glad that I pared down my initial vision fairly early. I was aiming for a much humbler goal, but I was aiming realistically, and I got a good learning experience out of that. 
+Lastly, I am glad that I pared down my initial vision fairly early. I was now aiming for a much humbler goal, but aiming realistically, and I got a good learning experience out of that. 
 
-*What could be improved?*
+This whole undertaking really was a dive into unknown waters - everything was new and in the end I have a much better sense of the scale and effort involved in a project like this. 
+
+##### *What could be improved?*
 
 The CSS-in-JS caught me off guard. I had not anticipated that it would get so complicated. It was especially frustrating because it happened right at the beginning and kind of took the wind out of my sails. But maybe this was also a blessing. 
 
 A simple thing to learn from this could be: Unknown tools will take time before they become useful. Look at your tools early, before forming goals.  
 
-The amount of work in general was unexpected. Really, the biggest challenge was kind of overarching: Where do I start designing this? -  With a list of features or with the theme colors or somewhere else? Does it even make sense to think of colors if I don't know who the app is supposed to be for? etc. etc. What really stuck with me, were these kinds of fundamental questions around UX and product design. 
+The amount of work in general was unexpected. Really, the biggest challenge was a meta problem: Where do I start designing this? -  With a list of features or with the theme colors or somewhere else? Does it even make sense to think of colors if I don't know who the app is supposed to be for? etc. etc. What really stuck with me, were these kinds of fundamental questions around UX and product design. 
 
 Since then, I have signed up for the [Google UX Design Professional Certificate](https://www.coursera.org/professional-certificates/google-ux-design) and learned about Design Sprints and various approaches to the design process. I'm left with a greater appreciation for structure and focus. 
 
-In my next and final project of the bootcamp, I took this lesson to heart and spent the first day thoroughly planning things out with my colleague. We made [mapper](https://github.com/Return180bpm/imagerouter)  - an app that lets you pick any spot on the world map and see photos taken in that location.
+In my next and final project of the bootcamp, I took this lesson to heart and spent the first day thoroughly planning things out with my colleague. We made [mapper](https://github.com/Return180bpm/imagerouter)  - an app that lets you pick any spot on the world map and see photos taken in that location. Take a look!
