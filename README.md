@@ -19,8 +19,9 @@ Read about all that fun in the [Development Story](#development-story) section, 
 *   Reset your password via email
 *   Upload a profile picture 
 *   Find other users
-*   Friend and unfriend them
+*   Friend them
 *   Chat with them
+*   Unfriend them
 
 ---
 
@@ -39,7 +40,7 @@ Read about all that fun in the [Development Story](#development-story) section, 
 
 ### Development Story
 
-#### The Dream
+#### Dream
 
 This was the last guided portion of my coding bootcamp. ([The final project](https://github.com/Return180bpm/imagerouter) was self-directed.) Building on what we had learned about Node and PostgreSQL, it felt like this full stack app with registration, profiles and a chat function was a fitting culmination to 10 weeks of JavaScript learning.
 
