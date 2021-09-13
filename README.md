@@ -4,6 +4,8 @@
 
 ---
 
+>   *DISCLAIMER: This is Tom Szwaja writing. The other contributor to this repo - [friedmandavid](https://github.com/friedmandavid) -  was a teacher at the coding bootcamp where this was made. He set up the template for this project.*
+
 ### General Idea
 
 I made this when I was attending the full stack web development bootcamp at [SPICED Academy](https://www.spiced-academy.com/en). As part of the lesson plan, this project introduced us to React, Redux, sockets, and front end routing. I also used it to learn Material-UI, for fun.
