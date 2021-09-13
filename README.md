@@ -32,8 +32,8 @@ Read about all that fun in the [Development Story](#development-story) section, 
 *   [React](https://reactjs.org/)
 *   [React Redux](https://react-redux.js.org/)
 *   [Material-UI](https://material-ui.com/) - A library of React components based on Google's [Material Design](https://material.io/).
-
 *   [Node](https://nodejs.org/en/about/)
+*   [Express](http://expressjs.com/)
 *   [PostgreSQL](https://www.postgresql.org/about/)
 
 ---
